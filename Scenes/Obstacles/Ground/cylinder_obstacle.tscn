@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bweo3jueo7jk2"]
+
+[ext_resource type="PackedScene" uid="uid://boamxfbo0ci0c" path="res://Scenes/Obstacles/hittable.tscn" id="1_q6wsb"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_635xa"]
+
+[node name="SphereObstacle" instance=ExtResource("1_q6wsb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
+shape = SubResource("CylinderShape3D_635xa")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="." index="1"]
+radius = 0.227
+height = 1.348

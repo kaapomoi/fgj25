@@ -1,21 +1,20 @@
-extends Area3D
+extends Node3D
 
-@onready var game = $"/root/Root/Game"
-@onready var bubble = $"/root/Root/Game/Bubble"
-
+# uncapped
+var difficulty :float = 1
+var difficulty_scaler_factor:float = 0.1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("New instance of hittable")
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	scale_difficulty_timer(delta)
 	pass
 
 
-
-func _on_body_entered(body: Node3D) -> void:
-	bubble.receive_hit()
-	pass # Replace with function body.
+func scale_difficulty_timer(delta: float) -> void:
+	difficulty += delta * difficulty_scaler_factor
+	pass

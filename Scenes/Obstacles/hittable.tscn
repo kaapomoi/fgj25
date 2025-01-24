@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://boamxfbo0ci0c"]
 
-[ext_resource type="Script" path="res://Scripts/Hittable.gd" id="1_fc1i4"]
+[ext_resource type="Script" path="res://Scripts/Hittable.gd" id="1_diiir"]
 
 [node name="Hittable" type="Area3D"]
 transform = Transform3D(0.999997, -0.000174505, 0.00241739, 0.000570946, 0.986297, -0.16498, -0.00235547, 0.164981, 0.986294, -0.0588137, 10.0637, -0.805078)
 collision_mask = 2
-script = ExtResource("1_fc1i4")
+script = ExtResource("1_diiir")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
