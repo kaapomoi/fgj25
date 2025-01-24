@@ -1,15 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=8 format=3 uid="uid://b0dnmh5v0ftm4"]
+
+[ext_resource type="Script" path="res://Scripts/bubble.gd" id="1_40p6p"]
+[ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
+[ext_resource type="PackedScene" uid="uid://d2e1r7t61pq0p" path="res://Scenes/sphere_obstacle.tscn" id="3_ps0d2"]
+[ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qqu8j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qaqcv"]
 albedo_color = Color(0, 0.921569, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ysc2i"]
+size = Vector3(1.88586, 2.04004, 0.557312)
 
 [node name="Root" type="Node3D"]
 
 [node name="World" type="Node3D" parent="."]
 
 [node name="MainCamera" type="Camera3D" parent="World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58656, -3.19417)
+transform = Transform3D(1, 0, 0, 0, 0.988793, 0.149294, 0, -0.149294, 0.988793, 0, 1.90635, -3.02681)
 fov = 80.0
+
+[node name="Bubble" type="CSGSphere3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00204909, 1.56052, -3.7551)
+radius = 0.1
+radial_segments = 50
+rings = 50
+script = ExtResource("1_40p6p")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="World/Bubble"]
+collision_layer = 2
+motion_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Bubble/CharacterBody3D"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+shape = SubResource("SphereShape3D_qqu8j")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="World"]
 transform = Transform3D(0.999997, 0.000570937, -0.00235547, -0.000174514, 0.986297, 0.164981, 0.00241739, -0.16498, 0.986294, 0, -8.61942, -3.84741)
@@ -17,9 +42,23 @@ radius = 10.0
 radial_segments = 100
 rings = 100
 material = SubResource("StandardMaterial3D_qaqcv")
+script = ExtResource("2_gljex")
+
+[node name="SphereObstacle" parent="World/CSGSphere3D" instance=ExtResource("3_ps0d2")]
+
+[node name="ObstacleKillZone" type="Area3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05309, -2.52556)
+collision_layer = 5
+script = ExtResource("4_nsqt2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/ObstacleKillZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.151917, 0.52002, 0.160492)
+shape = SubResource("BoxShape3D_ysc2i")
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[connection signal="area_entered" from="World/ObstacleKillZone" to="World/ObstacleKillZone" method="_on_area_entered"]

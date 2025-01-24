@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2e1r7t61pq0p"]
+
+[ext_resource type="PackedScene" uid="uid://boamxfbo0ci0c" path="res://Scenes/hittable.tscn" id="1_fk0kj"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mxfpt"]
+
+[node name="SphereObstacle" instance=ExtResource("1_fk0kj")]
+collision_mask = 3
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="." index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+shape = SubResource("SphereShape3D_mxfpt")
