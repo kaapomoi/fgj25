@@ -1,11 +1,22 @@
-[gd_scene format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=2 format=3 uid="uid://b0dnmh5v0ftm4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qaqcv"]
+albedo_color = Color(0, 0.921569, 0, 1)
 
 [node name="Root" type="Node3D"]
 
 [node name="World" type="Node3D" parent="."]
 
 [node name="MainCamera" type="Camera3D" parent="World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.845729, 2.57551)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58656, -3.19417)
+fov = 80.0
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="World"]
+transform = Transform3D(0.999997, 0.000570937, -0.00235547, -0.000174514, 0.986297, 0.164981, 0.00241739, -0.16498, 0.986294, 0, -8.61942, -3.84741)
+radius = 10.0
+radial_segments = 100
+rings = 100
+material = SubResource("StandardMaterial3D_qaqcv")
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
