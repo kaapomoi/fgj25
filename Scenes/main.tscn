@@ -5,11 +5,11 @@
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
 [ext_resource type="PackedScene" uid="uid://d2e1r7t61pq0p" path="res://Scenes/Obstacles/Flying/sphere_obstacle.tscn" id="3_ps0d2"]
 [ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="3_x4r8r"]
-[ext_resource type="AudioStream" uid="uid://ig8eytsfscvj" path="res://Assets/Sounds/SFX/pop.wav" id="4_4pskm"]
+[ext_resource type="AudioStream" uid="uid://crcgoi0uov3qi" path="res://Assets/Sounds/SFX/pop.wav" id="4_4pskm"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
 [ext_resource type="Shader" path="res://Assets/Shaders/grass.gdshader" id="4_q2pm4"]
-[ext_resource type="AudioStream" uid="uid://wmsg1cbncw41" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
-[ext_resource type="AudioStream" uid="uid://cyi4r7fqhi81r" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
+[ext_resource type="AudioStream" uid="uid://bobhvbc4yuaw1" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
+[ext_resource type="AudioStream" uid="uid://thn0dslw6dum" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
 
 [sub_resource type="Shader" id="Shader_70brf"]
 code = "
@@ -257,6 +257,18 @@ bus = &"SFX"
 [node name="SpawnLocation" type="Node3D" parent="Game"]
 process_mode = 1
 transform = Transform3D(1, 0, 0, 2.91038e-11, 1, 2.98023e-08, 2.32831e-10, 0, 1, 0, -10, -10.5)
+
+[node name="SpawnLocation2" type="Node3D" parent="Game"]
+process_mode = 1
+transform = Transform3D(1, 0, 0, 2.91038e-11, 1, 2.98023e-08, 2.32831e-10, 0, 1, 0, -13.6049, -10.3227)
+
+[node name="SpawnLocation3" type="Node3D" parent="Game"]
+process_mode = 1
+transform = Transform3D(1, 0, 0, 2.91038e-11, 1, 2.98023e-08, 2.32831e-10, 0, 1, 0, -15.9097, -9.37717)
+
+[node name="SpawnLocation4" type="Node3D" parent="Game"]
+process_mode = 1
+transform = Transform3D(1, 0, 0, 2.91038e-11, 1, 2.98023e-08, 2.32831e-10, 0, 1, 0, -19.3964, -6.12685)
 
 [node name="Globe" type="CSGSphere3D" parent="Game"]
 process_mode = 1

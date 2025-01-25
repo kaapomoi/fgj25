@@ -4,19 +4,31 @@ extends CSGSphere3D
 @onready var game = %Game
 #default spawn location for bot-mid
 @onready var base_spawn_location: Node3D = $"../SpawnLocation"
+@onready var base_spawn_location2: Node3D = $"../SpawnLocation2"
+@onready var base_spawn_location3: Node3D = $"../SpawnLocation3"
+@onready var base_spawn_location4: Node3D = $"../SpawnLocation4"
 
 var base_rotation_speed :float = PI/4
 var rotation_difficulty_multiplier :float = 0.3
+var rotation_speed :float = 0.0
 var max_rotation_speed :float = PI/2
 
-#seconds
-var base_obstacle_spawn_interval :float = 2.0
+
+#debug
+var total_rotation = 0.0
+
+#radians
+var base_obstacle_spawn_interval :float = PI/2
+var base_collectable_spawn_interval :float = PI/2/3
+var delta_rotation :float = 0.0
 
 #how many open spots in the grid we leave when spawning set of obstacles (5-1)
 var open_spots :int = 1
 
 #							top-left, 			top-mid, 		top-right, 			bot-left, 			bot-mid, 			bot-right
 var spawn_offset :Array = [Vector2(-1.0, -1.0), Vector2(0.0, -1.0), Vector2(1.0, -1.0) ,Vector2(-1.0, 0.0), Vector2(0.0, 0.0), Vector2(1.0, 0.0)]
+var spawn_radius_offset :float = 0.5
+var spawn_radiant_offset :float = PI/2
 
 #list of obstacles
 var flying_obstacles :Array = []
@@ -26,9 +38,11 @@ const grounded_obstacles_path = "res://Scenes/Obstacles/Ground/"
 
 #collectables
 @onready var collectable = preload("res://Scenes/collectable.tscn")
+@onready var obstacle_timer :Timer = $ObstacleTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	base_collectable_spawn_interval = base_obstacle_spawn_interval / 3
 	_load_obstacle_resources()
 
 
@@ -38,6 +52,7 @@ func _process(delta: float) -> void:
 	#print("Current Open slots = " + str(open_spots))
 	#print("SpawnLocation: " + str(base_spawn_location.rotation))
 	_spin_globe(delta)
+	_handle_delta_rotation_and_spawning(delta)
 	
 
 func _load_obstacle_resources() -> void:
@@ -86,7 +101,8 @@ func _calculate_current_open_spots() -> void:
 	pass
 
 func _spin_globe(delta: float) -> void:
-	rotate_x(clampf(base_rotation_speed * delta * game.difficulty * rotation_difficulty_multiplier, 0, max_rotation_speed))
+	rotation_speed = clampf(base_rotation_speed * delta * game.difficulty * rotation_difficulty_multiplier, 0, max_rotation_speed)
+	rotate_x(rotation_speed)
 	
 
 func _spawn_set_of_obstacles_and_collectable() -> void:
@@ -96,7 +112,8 @@ func _spawn_set_of_obstacles_and_collectable() -> void:
 	#get (grid) positions which where we want to spawn obstacles
 	var positions = [0, 1, 2, 3, 4, 5]
 	positions.shuffle()
-	spawn_collectable(positions.back())
+	var random_index = randi_range(0, 5)
+	spawn_collectables_between_obstacles(random_index)
 	if open_spots > positions.size():
 		print("Error, too many open positions")
 		pass
@@ -113,6 +130,23 @@ func spawn_collectable(position_index : int) -> void:
 		var spawn_position :Vector3 = _get_relative_spawn_location(position_index)
 		instance.global_position = spawn_position
 		instance.rotate_x(-PI/2 - rotation.x)
+		
+func spawn_collectables_between_obstacles(position_index: int) -> void:
+	var instance1 = collectable.instantiate() as Node3D
+	add_child(instance1)
+	instance1.global_position = _get_collectable_spawn_location(position_index, 1)
+	var instance2 = collectable.instantiate() as Node3D
+	add_child(instance2)
+	instance2.global_position = _get_collectable_spawn_location(position_index, 2)
+	var instance3 = collectable.instantiate() as Node3D
+	add_child(instance3)
+	instance3.global_position = _get_collectable_spawn_location(position_index, 3)
+	
+func _handle_delta_rotation_and_spawning(delta: float) -> void:
+	delta_rotation += rotation_speed
+	if delta_rotation > base_obstacle_spawn_interval:
+		_spawn_set_of_obstacles_and_collectable()
+		delta_rotation = 0.0
 
 func spawn_obstacle(position_index : int) -> void:
 	#spawn flying obstacle
@@ -138,12 +172,16 @@ func spawn_obstacle(position_index : int) -> void:
 	pass
 
 func _get_relative_spawn_location(position_index: int) -> Vector3:
-	var spawn_location = base_spawn_location.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
+	var spawn_location = Vector3(0.0, - radius,  - radius - spawn_radius_offset) + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
+	#spawn_location = base_spawn_location.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
 	return spawn_location
-
-func _on_timer_timeout() -> void:
-	_spawn_set_of_obstacles_and_collectable()
-
-
-func _on_collectable_timer_timeout() -> void:
-	pass # Replace with function body.
+	
+func _get_collectable_spawn_location(position_index: int, i: int) -> Vector3:
+	if i == 1:
+		return base_spawn_location2.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
+	if i == 2:
+		return base_spawn_location3.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
+	if i == 3:
+		return base_spawn_location4.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
+	
+	return Vector3.ZERO
