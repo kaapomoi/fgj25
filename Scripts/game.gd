@@ -40,7 +40,8 @@ func _process(delta: float) -> void:
 
 
 func scale_difficulty_timer(delta: float) -> void:
-	difficulty += delta * difficulty_scaler_factor
+	if game_state == GAME_STATE.PLAYING:
+		difficulty += delta * difficulty_scaler_factor
 	pass
 	
 func _input(event: InputEvent) -> void:
