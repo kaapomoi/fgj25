@@ -193,30 +193,37 @@ environment = SubResource("Environment_nvg77")
 
 [node name="Game" type="Node3D" parent="."]
 unique_name_in_owner = true
+process_mode = 3
 script = ExtResource("1_feucm")
 
 [node name="MainCamera" type="Camera3D" parent="Game"]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 0.9065, 0.422207, 0, -0.422207, 0.9065, 0, 1.55884, 1.91826)
 fov = 80.0
 
 [node name="Player" type="CharacterBody3D" parent="Game"]
+process_mode = 1
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("2_ckfi3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Game/Player"]
+process_mode = 1
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 shape = SubResource("SphereShape3D_qqu8j")
 
 [node name="Bubble" type="CSGSphere3D" parent="Game/Player"]
+process_mode = 1
 radius = 0.1
 radial_segments = 50
 rings = 50
 
 [node name="SpawnLocation" type="Node3D" parent="Game"]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 2.91038e-11, 1, 2.98023e-08, 2.32831e-10, 0, 1, 0, -10, -10.5)
 
 [node name="Globe" type="CSGSphere3D" parent="Game"]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.5, 0)
 radius = 10.0
 radial_segments = 100
@@ -225,23 +232,33 @@ material = SubResource("ShaderMaterial_pwhtk")
 script = ExtResource("2_gljex")
 
 [node name="SphereObstacle" parent="Game/Globe" instance=ExtResource("3_ps0d2")]
+process_mode = 1
 
-[node name="Timer" type="Timer" parent="Game/Globe"]
+[node name="ObstacleTimer" type="Timer" parent="Game/Globe"]
+process_mode = 1
+autostart = true
+
+[node name="CollectableTimer" type="Timer" parent="Game/Globe"]
+process_mode = 1
 autostart = true
 
 [node name="ObstacleKillZone" type="Area3D" parent="Game"]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.935, 3.01)
 collision_layer = 5
 script = ExtResource("4_nsqt2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Game/ObstacleKillZone"]
+process_mode = 1
 transform = Transform3D(2.12, 0, 0, 0, 2.12, 0, 0, 0, 2.12, 0.151917, 0.217007, 2.11052)
 shape = SubResource("BoxShape3D_ysc2i")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Game"]
+process_mode = 1
 transform = Transform3D(-0.230633, 0.430217, -0.872767, -0.0773392, 0.886005, 0.457179, 0.969963, 0.17294, -0.171069, -2.00561, 1.368, -0.393648)
 
 [node name="Score" type="Label3D" parent="Game"]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.20836, 1.9022, -0.136667)
 alpha_scissor_threshold = 0.51
 text = "Score:"
@@ -250,6 +267,7 @@ outline_size = 15
 horizontal_alignment = 0
 
 [node name="Highscore" type="Label3D" parent="Game"]
+process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25469, 1.65585, -0.136667)
 alpha_scissor_threshold = 0.51
 text = "Highscore:"
@@ -263,5 +281,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[connection signal="timeout" from="Game/Globe/Timer" to="Game/Globe" method="_on_timer_timeout"]
+[connection signal="player_died" from="Game/Player" to="Game" method="_on_player_player_died"]
+[connection signal="timeout" from="Game/Globe/ObstacleTimer" to="Game/Globe" method="_on_timer_timeout"]
+[connection signal="timeout" from="Game/Globe/CollectableTimer" to="Game/Globe" method="_on_collectable_timer_timeout"]
 [connection signal="area_entered" from="Game/ObstacleKillZone" to="Game/ObstacleKillZone" method="_on_area_entered"]
