@@ -6,6 +6,7 @@ extends Node
 @onready var audioplayer = $PickupSoundPlayer
 @onready var timer = $Timer
 @onready var sphere = $GraphicSphere
+@onready var particles = $GPUParticles3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,6 +23,7 @@ func _on_body_entered(body: Node3D) -> void:
 	if player && game.game_state != game.GAME_STATE.END:
 		audioplayer.play()	
 		timer.start()
+		particles.emitting = true
 		player.receive_collectible()
 		sphere.queue_free()
 		

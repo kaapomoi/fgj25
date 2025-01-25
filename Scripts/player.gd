@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 
 @onready var game = %Game
+@onready var particle_effects = $GPUParticles3D
+@onready var pop_sound_player = $PopPlayer
 
 const top_left = Vector3(-1, 1, 0)
 const bot_right = Vector3(1, 0, 0)
@@ -24,6 +26,9 @@ func _finished_moving() -> void:
 func receive_hit() -> void:
     print("Got it")
     emit_signal("player_died")
+    $Bubble.queue_free()
+    particle_effects.emitting = true
+    pop_sound_player.play()
     pass
     
     

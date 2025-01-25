@@ -1,16 +1,37 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8rt34c840wvi"]
+[gd_scene load_steps=10 format=3 uid="uid://c8rt34c840wvi"]
 
 [ext_resource type="Script" path="res://Scripts/collectable.gd" id="1_a7eje"]
 [ext_resource type="Material" uid="uid://cqlpo0fxr5fcs" path="res://Assets/Materials/bubble_opaque.material" id="2_setpj"]
+[ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="2_u5okv"]
 [ext_resource type="AudioStream" uid="uid://p3aykvdjwnlh" path="res://Assets/Sounds/SFX/pickup.wav" id="2_vvru6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1u3fc"]
 size = Vector3(0.110291, 0.103271, 0.107849)
 
+[sub_resource type="Curve" id="Curve_1jv78"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dsgni"]
+curve = SubResource("Curve_1jv78")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_58as3"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+radial_velocity_min = -2.23517e-05
+radial_velocity_max = 2.99998
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -2.23517e-06
+radial_accel_max = -2.23517e-06
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_dsgni")
+
 [sub_resource type="SphereMesh" id="SphereMesh_3fcqw"]
-material = ExtResource("2_setpj")
-radius = 0.15
-height = 0.3
+material = ExtResource("2_u5okv")
+radius = 0.1
+height = 0.2
+radial_segments = 32
+rings = 16
 
 [node name="Collectable" type="Area3D"]
 collision_mask = 2
@@ -22,6 +43,7 @@ shape = SubResource("BoxShape3D_1u3fc")
 
 [node name="GraphicSphere" type="CSGSphere3D" parent="."]
 process_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00584793, 0.00646114, 8.72612e-05)
 radius = 0.25
 radial_segments = 50
 rings = 50
@@ -34,11 +56,13 @@ stream = ExtResource("2_vvru6")
 one_shot = true
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1.00251, 0, 0, 0, 1.00251, 0, 0, 0, 1.00251, 0, 0, 0)
-visible = false
-explosiveness = 0.12
-randomness = 0.3
-process_material = ExtResource("2_setpj")
+emitting = false
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.74
+randomness = 0.49
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_58as3")
 draw_pass_1 = SubResource("SphereMesh_3fcqw")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,11 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=27 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ckfi3"]
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
 [ext_resource type="PackedScene" uid="uid://d2e1r7t61pq0p" path="res://Scenes/Obstacles/Flying/sphere_obstacle.tscn" id="3_ps0d2"]
 [ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="3_x4r8r"]
+[ext_resource type="AudioStream" uid="uid://ig8eytsfscvj" path="res://Assets/Sounds/SFX/pop.wav" id="4_4pskm"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
+[ext_resource type="Shader" path="res://Assets/Shaders/grass.gdshader" id="4_q2pm4"]
 [ext_resource type="AudioStream" uid="uid://wmsg1cbncw41" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
 [ext_resource type="AudioStream" uid="uid://cyi4r7fqhi81r" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
 
@@ -119,7 +121,7 @@ tonemap_mode = 2
 glow_enabled = true
 fog_enabled = true
 fog_mode = 1
-fog_light_color = Color(0.418429, 0.585287, 0.597588, 1)
+fog_light_color = Color(0.204334, 0.644567, 0.953087, 1)
 fog_sun_scatter = 0.05
 fog_density = 0.2345
 fog_aerial_perspective = 0.105
@@ -128,6 +130,80 @@ fog_depth_curve = 2.29739
 fog_depth_begin = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qqu8j"]
+
+[sub_resource type="Curve" id="Curve_bsa26"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_c0gh6"]
+curve = SubResource("Curve_bsa26")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duob5"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+radial_velocity_min = -2.23517e-05
+radial_velocity_max = 1.99998
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -2.23517e-06
+radial_accel_max = -2.23517e-06
+tangential_accel_min = -2.07
+tangential_accel_max = 2.44
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_c0gh6")
+
+[sub_resource type="SphereMesh" id="SphereMesh_7m1k4"]
+material = ExtResource("3_x4r8r")
+radius = 0.1
+height = 0.2
+radial_segments = 32
+rings = 16
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m0t2t"]
+noise_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_skmq1"]
+width = 128
+height = 128
+generate_mipmaps = false
+seamless = true
+seamless_blend_skirt = 0.711
+bump_strength = 27.0
+noise = SubResource("FastNoiseLite_m0t2t")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4dhrd"]
+render_priority = 0
+shader = ExtResource("4_q2pm4")
+shader_parameter/time_speed = 0.095
+shader_parameter/surface_speed = -1.81
+shader_parameter/spin = 0.435
+shader_parameter/brightness = 0.6
+shader_parameter/color_intensity = 0.0
+shader_parameter/horizontal_frequency = 0.0
+shader_parameter/vertical_frequency = 1.865
+shader_parameter/size = 3.0
+shader_parameter/banding_bias = 0.57
+shader_parameter/wave_height = 0.03
+shader_parameter/texture_height = 0.05
+shader_parameter/color1 = Color(0.223529, 0.556863, 0.113725, 1)
+shader_parameter/color2 = Color(0.0588235, 0.427451, 0.113725, 1)
+shader_parameter/color3 = Color(0.101889, 0.375762, 0.0189874, 1)
+shader_parameter/color4 = Color(0, 0.312286, 0, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_skmq1")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nap0x"]
+seed = 440
+frequency = 0.032
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3ga3k"]
+normalize = false
+noise = SubResource("FastNoiseLite_nap0x")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_74kd7"]
+next_pass = SubResource("ShaderMaterial_4dhrd")
+albedo_color = Color(0.148715, 0.148502, 0, 1)
+metallic = 0.46
+metallic_specular = 0.13
+normal_texture = SubResource("NoiseTexture2D_3ga3k")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ysc2i"]
 size = Vector3(1.88586, 2.04004, 0.557312)
@@ -163,6 +239,21 @@ radial_segments = 50
 rings = 50
 material = ExtResource("3_x4r8r")
 
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Game/Player"]
+emitting = false
+amount = 64
+lifetime = 3.0
+one_shot = true
+explosiveness = 0.5
+randomness = 0.29
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_duob5")
+draw_pass_1 = SubResource("SphereMesh_7m1k4")
+
+[node name="PopPlayer" type="AudioStreamPlayer3D" parent="Game/Player"]
+stream = ExtResource("4_4pskm")
+bus = &"SFX"
+
 [node name="SpawnLocation" type="Node3D" parent="Game"]
 process_mode = 1
 transform = Transform3D(1, 0, 0, 2.91038e-11, 1, 2.98023e-08, 2.32831e-10, 0, 1, 0, -10, -10.5)
@@ -173,6 +264,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.5, 0)
 radius = 10.0
 radial_segments = 100
 rings = 100
+material = SubResource("StandardMaterial3D_74kd7")
 script = ExtResource("2_gljex")
 
 [node name="SphereObstacle" parent="Game/Globe" instance=ExtResource("3_ps0d2")]
