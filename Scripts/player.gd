@@ -23,6 +23,7 @@ func _finished_moving() -> void:
 
 func receive_hit() -> void:
 	print("Got it")
+	emit_signal("player_died")
 	pass
 	
 	

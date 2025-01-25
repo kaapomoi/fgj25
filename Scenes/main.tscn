@@ -1,11 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=16 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ckfi3"]
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
 [ext_resource type="PackedScene" uid="uid://d2e1r7t61pq0p" path="res://Scenes/Obstacles/Flying/sphere_obstacle.tscn" id="3_ps0d2"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
-[ext_resource type="AudioStream" uid="uid://wmsg1cbncw41" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
+[ext_resource type="AudioStream" uid="uid://bobhvbc4yuaw1" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
+[ext_resource type="AudioStream" uid="uid://thn0dslw6dum" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
 
 [sub_resource type="Shader" id="Shader_70brf"]
 code = "
@@ -279,8 +280,13 @@ horizontal_alignment = 0
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource("6_64eyh")
 autoplay = true
-bus = &"BG"
 parameters/looping = true
+
+[node name="GameEndStreamPlayer" type="AudioStreamPlayer3D" parent="Game"]
+stream = ExtResource("7_3g4kw")
+
+[node name="GameEndTimer" type="Timer" parent="Game"]
+wait_time = 6.0
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -292,3 +298,4 @@ offset_bottom = 40.0
 [connection signal="timeout" from="Game/Globe/ObstacleTimer" to="Game/Globe" method="_on_timer_timeout"]
 [connection signal="timeout" from="Game/Globe/CollectableTimer" to="Game/Globe" method="_on_collectable_timer_timeout"]
 [connection signal="area_entered" from="Game/ObstacleKillZone" to="Game/ObstacleKillZone" method="_on_area_entered"]
+[connection signal="timeout" from="Game/GameEndTimer" to="Game" method="_on_game_end_timer_timeout"]

@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8rt34c840wvi"]
+[gd_scene load_steps=5 format=3 uid="uid://bd4qtvr663jay"]
 
 [ext_resource type="Script" path="res://Scripts/collectable.gd" id="1_a7eje"]
-[ext_resource type="AudioStream" uid="uid://p3aykvdjwnlh" path="res://Assets/Sounds/SFX/pickup.wav" id="2_vvru6"]
+[ext_resource type="AudioStream" uid="uid://dd6d4rdyyoci0" path="res://Assets/Sounds/SFX/pickup.wav" id="2_vvru6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1u3fc"]
 size = Vector3(0.110291, 0.103271, 0.107849)
@@ -23,7 +23,6 @@ size = Vector3(0.1, 0.1, 0.1)
 
 [node name="PickupSoundPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_vvru6")
-bus = &"SFX"
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

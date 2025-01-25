@@ -16,5 +16,7 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	player.receive_hit()
-	pass # Replace with function body.
+	if player && game.game_state != game.GAME_STATE.END:
+		player.receive_hit()
+		pass # Replace with function body.
+	pass

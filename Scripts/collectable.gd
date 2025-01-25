@@ -2,6 +2,7 @@ extends Node
 
 
 @onready var player = $"/root/Root/Game/Player"
+@onready var game = $"/root/Root/Game"
 @onready var audioplayer = $PickupSoundPlayer
 @onready var timer = $Timer
 @onready var box = $CSGBox3D
@@ -18,7 +19,7 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	if player:
+	if player && game.game_state != game.GAME_STATE.END:
 		audioplayer.play()	
 		timer.start()
 		player.receive_collectible()
