@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dut0c6pxotg53"]
+
+[ext_resource type="PackedScene" uid="uid://cxtbmh4x36bu1" path="res://Assets/Models/stellwerk.fbx" id="1_l4g2j"]
+
+[node name="stellwerk" instance=ExtResource("1_l4g2j")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)

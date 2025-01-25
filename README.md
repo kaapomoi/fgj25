@@ -28,3 +28,21 @@ by Yui Kinomoto @arlez80
 # Grass (Globe) shared
 https://godotshaders.com/shader/stylized-toon-water/
 Thundergecko8
+
+
+## Chichen Itza - El Castillo
+https://opengameart.org/content/chichen-itza-el-castillo 
+Esteban Lopez
+
+## Stellwerk-A building
+https://opengameart.org/content/stellwerk-a
+DerMische
+
+## Windmill building
+https://opengameart.org/content/stylized-wildmill-isometric-with-parts-to-build-animationand-blend 
+AstroDev ,Fernando Ferreira
+
+
+## Church
+https://opengameart.org/content/medieval-church-interior
+AnyRPG

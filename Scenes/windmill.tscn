@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://pmoi0ro8d1ke"]
+
+[ext_resource type="PackedScene" uid="uid://bghjxukpw8t7d" path="res://Assets/Models/Windmill.fbx" id="1_g24kw"]
+[ext_resource type="Texture2D" uid="uid://onw0uxtxnxca" path="res://Assets/Textures/wildmill_pallet.png" id="2_sbact"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_25i2x"]
+albedo_texture = ExtResource("2_sbact")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aucnl"]
+albedo_texture = ExtResource("2_sbact")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g5ax0"]
+albedo_texture = ExtResource("2_sbact")
+
+[node name="Windmill" instance=ExtResource("1_g24kw")]
+
+[node name="Windmill_0" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_25i2x")
+
+[node name="base_body" parent="." index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_aucnl")
+
+[node name="forge" parent="base_body" index="0"]
+transform = Transform3D(-1, -1.51022e-07, -7.30355e-06, -7.30355e-06, 3.57628e-06, 1, -1.50996e-07, 1, -3.69549e-06, 0.000224988, -0.000405533, -0.000578257)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="Platform_complex" parent="base_body" index="1"]
+transform = Transform3D(-1, -1.51022e-07, -7.30355e-06, -7.30355e-06, 3.57628e-06, 1, -1.50996e-07, 1, -3.69549e-06, 0.000224988, -0.000405533, -0.000578257)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="Flags" parent="base_body" index="2"]
+transform = Transform3D(-1, -1.51022e-07, -7.30355e-06, -7.30355e-06, 3.57628e-06, 1, -1.50996e-07, 1, -3.69549e-06, 0.000224988, -0.000405533, -0.000578255)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="Roof" parent="base_body" index="3"]
+transform = Transform3D(1.18626, 1.07395e-05, -6.54009e-08, 1.03706e-07, 1.63021e-05, 0.747412, -8.6639e-06, 1.47045, -8.19705e-06, 0.000224988, -0.000405533, -0.000578258)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="Roof_001" parent="base_body" index="4"]
+transform = Transform3D(-1, -1.51022e-07, -7.30355e-06, -7.30355e-06, 3.57628e-06, 1, -1.50996e-07, 1, -3.69549e-06, 0.000224988, -0.000405533, -0.000578258)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="base_walls" parent="base_body" index="5"]
+transform = Transform3D(-1, -7.30355e-06, 8.75032e-08, -8.74227e-08, -1.10865e-05, -1, 7.30355e-06, -1, 1.09673e-05, 0.000224988, -0.000405533, -0.000578257)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="ground" parent="base_body" index="6"]
+transform = Transform3D(-1, -1.51022e-07, -7.30355e-06, -7.30355e-06, 3.57628e-06, 1, -1.50996e-07, 1, -3.69549e-06, 0.000224988, -0.000405533, -0.000578257)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="Circle_001" parent="base_body" index="7"]
+transform = Transform3D(-1, -7.30355e-06, 8.75032e-08, -8.74227e-08, -1.10865e-05, -1, 7.30355e-06, -1, 1.09673e-05, 0.000224988, -0.000405533, -0.000578257)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")
+
+[node name="Platform_basic" parent="base_body" index="8"]
+transform = Transform3D(-1, -7.30355e-06, 8.75032e-08, -8.74227e-08, -1.10865e-05, -1, 7.30355e-06, -1, 1.09673e-05, 0.000224988, -0.000405533, -0.000578257)
+surface_material_override/0 = SubResource("StandardMaterial3D_g5ax0")

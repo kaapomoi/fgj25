@@ -1,15 +1,18 @@
-[gd_scene load_steps=27 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=30 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ckfi3"]
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
-[ext_resource type="PackedScene" uid="uid://d2e1r7t61pq0p" path="res://Scenes/Obstacles/Flying/sphere_obstacle.tscn" id="3_ps0d2"]
 [ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="3_x4r8r"]
 [ext_resource type="AudioStream" uid="uid://crcgoi0uov3qi" path="res://Assets/Sounds/SFX/pop.wav" id="4_4pskm"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
 [ext_resource type="Shader" path="res://Assets/Shaders/grass.gdshader" id="4_q2pm4"]
 [ext_resource type="AudioStream" uid="uid://bobhvbc4yuaw1" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
 [ext_resource type="AudioStream" uid="uid://thn0dslw6dum" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
+[ext_resource type="PackedScene" uid="uid://dut0c6pxotg53" path="res://Scenes/stellwerk.tscn" id="8_dn6rm"]
+[ext_resource type="PackedScene" uid="uid://pmoi0ro8d1ke" path="res://Scenes/windmill.tscn" id="9_5c7em"]
+[ext_resource type="PackedScene" uid="uid://cbkbhq12cjbs6" path="res://Scenes/Church.tscn" id="10_7fwd0"]
+[ext_resource type="PackedScene" uid="uid://cqo8w2pyt51y7" path="res://Scenes/el_castillo.tscn" id="10_rkrfw"]
 
 [sub_resource type="Shader" id="Shader_70brf"]
 code = "
@@ -272,15 +275,12 @@ transform = Transform3D(1, 0, 0, 2.91038e-11, 1, 2.98023e-08, 2.32831e-10, 0, 1,
 
 [node name="Globe" type="CSGSphere3D" parent="Game"]
 process_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.5, 0)
+transform = Transform3D(1.00659, 0, 0, 0, 1.00659, 0, 0, 0, 1.00659, 0, -10.5, 0)
 radius = 10.0
 radial_segments = 100
 rings = 100
 material = SubResource("StandardMaterial3D_74kd7")
 script = ExtResource("2_gljex")
-
-[node name="SphereObstacle" parent="Game/Globe" instance=ExtResource("3_ps0d2")]
-process_mode = 1
 
 [node name="ObstacleTimer" type="Timer" parent="Game/Globe"]
 process_mode = 1
@@ -289,6 +289,18 @@ autostart = true
 [node name="CollectableTimer" type="Timer" parent="Game/Globe"]
 process_mode = 1
 autostart = true
+
+[node name="ElCastillo" parent="Game/Globe" instance=ExtResource("10_rkrfw")]
+transform = Transform3D(0.0377082, -0.0132357, -0.00170629, 0.0133329, 0.0371448, 0.00651929, -0.000572685, -0.00671451, 0.0394283, -2.91736, 9.03076, -1.30785)
+
+[node name="stellwerk" parent="Game/Globe" instance=ExtResource("8_dn6rm")]
+transform = Transform3D(0.00146681, 0.0374593, -0.196455, 0.171963, 0.100069, 0.0203648, 0.10211, -0.169065, -0.0314742, 2.18142, 4.69426, -8.40916)
+
+[node name="Windmill" parent="Game/Globe" instance=ExtResource("9_5c7em")]
+transform = Transform3D(0.461903, -0.19143, -7.45058e-09, -0.142104, -0.342883, 0.335019, -0.128266, -0.309493, -0.371163, -2.62496, -6.22426, -6.59525)
+
+[node name="Church" parent="Game/Globe" instance=ExtResource("10_7fwd0")]
+transform = Transform3D(0.0618836, 0.0327173, 0, 0.0189553, -0.0358533, -0.0570547, -0.0266668, 0.0504393, -0.0405557, 4.43867, -4.63159, 6.51998)
 
 [node name="ObstacleKillZone" type="Area3D" parent="Game"]
 process_mode = 1

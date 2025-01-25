@@ -61,6 +61,7 @@ bind/8/bone = -1
 bind/8/pose = Transform3D(5.99685e-09, -0.904143, 1.10106e-07, -1.19509, 1.0714e-08, 0.0812359, -0.134695, -1.35314e-07, -0.72077, -6.20106e-10, -0.0100069, 0.0038449)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mah6x"]
+radius = 0.4
 
 [sub_resource type="Animation" id="Animation_h6nlj"]
 resource_name = "Armature|ArmatureAction"
@@ -128,7 +129,6 @@ _data = {
 }
 
 [node name="Hittable" instance=ExtResource("4_rwhwj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_mask = 3
 
 [node name="Armature" type="Node3D" parent="." index="0"]

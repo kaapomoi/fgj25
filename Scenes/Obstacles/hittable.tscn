@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Hittable.gd" id="1_diiir"]
 
 [node name="Hittable" type="Area3D"]
-transform = Transform3D(0.999997, -0.000174505, 0.00241739, 0.000570946, 0.986297, -0.16498, -0.00235547, 0.164981, 0.986294, -0.0588137, 10.0637, -0.805078)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_mask = 2
 script = ExtResource("1_diiir")
 

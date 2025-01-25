@@ -1,0 +1,27 @@
+[gd_scene load_steps=9 format=3 uid="uid://cqo8w2pyt51y7"]
+
+[ext_resource type="PackedScene" uid="uid://cqtgs1t8f6qfe" path="res://Assets/Models/ElCastillo.fbx" id="1_u78jg"]
+[ext_resource type="Texture2D" uid="uid://dqdscl8gmh8qp" path="res://Assets/Textures/ElCastillo/ElCastillo_StairRails_Albedo.png" id="2_6phlu"]
+[ext_resource type="Texture2D" uid="uid://b6as0mx8w4rmt" path="res://Assets/Textures/ElCastillo/ElCastillo_StairRails_AO.png" id="3_nj32e"]
+[ext_resource type="Texture2D" uid="uid://hb14cc76j36q" path="res://Assets/Textures/ElCastillo/ElCastillo_StairRails_Metalness.png" id="4_llrf5"]
+[ext_resource type="Texture2D" uid="uid://cibu7kpbm2m4b" path="res://Assets/Textures/ElCastillo/ElCastillo_StairRails_Normal.png" id="5_u8f3b"]
+[ext_resource type="Texture2D" uid="uid://dd6y81lkvi71f" path="res://Assets/Textures/ElCastillo/ElCastillo_StairRails_Roughness.png" id="6_0l066"]
+[ext_resource type="Texture2D" uid="uid://cfauw75j8k8l3" path="res://Assets/Textures/ElCastillo/ElCastillo_StairRails_Displacement.exr" id="7_avce5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yakpc"]
+albedo_texture = ExtResource("2_6phlu")
+metallic = 1.0
+metallic_texture = ExtResource("4_llrf5")
+roughness_texture = ExtResource("6_0l066")
+normal_enabled = true
+normal_texture = ExtResource("5_u8f3b")
+ao_enabled = true
+ao_texture = ExtResource("3_nj32e")
+subsurf_scatter_enabled = true
+subsurf_scatter_texture = ExtResource("7_avce5")
+
+[node name="ElCastillo" instance=ExtResource("1_u78jg")]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
+
+[node name="ElCastillo" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_yakpc")

@@ -1,0 +1,126 @@
+[gd_scene load_steps=32 format=3 uid="uid://cbkbhq12cjbs6"]
+
+[ext_resource type="PackedScene" uid="uid://dmpbk7yxdrg2k" path="res://Assets/Models/Church.fbx" id="1_s3leu"]
+[ext_resource type="Texture2D" uid="uid://dugoy03773kqt" path="res://Assets/Textures/Church/Rusted Metal.jpg" id="2_e276j"]
+[ext_resource type="Texture2D" uid="uid://dp3gjqt2elg01" path="res://Assets/Textures/Church/Wood.jpg" id="3_bkggg"]
+[ext_resource type="Texture2D" uid="uid://4cw6lm2jyrmk" path="res://Assets/Textures/Church/Metal.jpg" id="4_w5rh5"]
+[ext_resource type="Texture2D" uid="uid://cfvesk68ubnbh" path="res://Assets/Textures/Church/RoofTiles3.jpg" id="5_040wl"]
+[ext_resource type="Texture2D" uid="uid://fng8d3qxnqx6" path="res://Assets/Textures/Church/marble.jpg" id="6_kmreg"]
+[ext_resource type="Texture2D" uid="uid://cevmy5m6d4vrn" path="res://Assets/Textures/Church/Stone.jpg" id="7_76vpd"]
+[ext_resource type="Texture2D" uid="uid://bqv3qmc4rdelh" path="res://Assets/Textures/Church/GreyBricks2.jpg" id="8_5c770"]
+[ext_resource type="Texture2D" uid="uid://bwp42cvbcclh5" path="res://Assets/Textures/Church/DoorType1_2.jpg" id="9_6jlq3"]
+[ext_resource type="Texture2D" uid="uid://ce65yrh6aclup" path="res://Assets/Textures/Church/ChurchDoor1.jpg" id="10_707fj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hx27a"]
+albedo_texture = ExtResource("2_e276j")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5uyeo"]
+albedo_texture = ExtResource("3_bkggg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qtma5"]
+albedo_texture = ExtResource("4_w5rh5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b046b"]
+albedo_texture = ExtResource("5_040wl")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ff2q8"]
+albedo_texture = ExtResource("2_e276j")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yxu54"]
+albedo_texture = ExtResource("6_kmreg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2dxd"]
+albedo_texture = ExtResource("7_76vpd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w02o3"]
+albedo_texture = ExtResource("4_w5rh5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4t4y1"]
+albedo_texture = ExtResource("4_w5rh5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ov3d"]
+albedo_texture = ExtResource("7_76vpd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sxqjp"]
+albedo_texture = ExtResource("8_5c770")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sppus"]
+albedo_texture = ExtResource("9_6jlq3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jasqe"]
+albedo_texture = ExtResource("10_707fj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_460yr"]
+albedo_texture = ExtResource("10_707fj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_24wbd"]
+albedo_texture = ExtResource("9_6jlq3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5q02h"]
+albedo_texture = ExtResource("7_76vpd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8foul"]
+albedo_texture = ExtResource("6_kmreg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_053x8"]
+albedo_texture = ExtResource("7_76vpd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_esoa1"]
+albedo_texture = ExtResource("9_6jlq3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mq1x3"]
+albedo_texture = ExtResource("9_6jlq3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pf8v6"]
+albedo_texture = ExtResource("9_6jlq3")
+
+[node name="Church" instance=ExtResource("1_s3leu")]
+
+[node name="Bell" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_hx27a")
+surface_material_override/1 = SubResource("StandardMaterial3D_5uyeo")
+
+[node name="CopperRoof" parent="." index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_qtma5")
+surface_material_override/1 = SubResource("StandardMaterial3D_b046b")
+
+[node name="Innansorra" parent="." index="3"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ff2q8")
+
+[node name="StoneBeams" parent="." index="4"]
+surface_material_override/0 = SubResource("StandardMaterial3D_yxu54")
+
+[node name="StoneRoof" parent="." index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_y2dxd")
+
+[node name="SunSymbol" parent="." index="6"]
+surface_material_override/0 = SubResource("StandardMaterial3D_w02o3")
+
+[node name="WindowBars" parent="." index="7"]
+surface_material_override/0 = SubResource("StandardMaterial3D_4t4y1")
+
+[node name="StoneBrickWalls" parent="." index="8"]
+surface_material_override/0 = SubResource("StandardMaterial3D_8ov3d")
+surface_material_override/1 = SubResource("StandardMaterial3D_sxqjp")
+
+[node name="SideDoor" parent="." index="9"]
+surface_material_override/0 = SubResource("StandardMaterial3D_sppus")
+surface_material_override/1 = SubResource("StandardMaterial3D_jasqe")
+surface_material_override/2 = SubResource("StandardMaterial3D_460yr")
+surface_material_override/3 = SubResource("StandardMaterial3D_24wbd")
+
+[node name="SideStairs" parent="." index="10"]
+surface_material_override/0 = SubResource("StandardMaterial3D_5q02h")
+
+[node name="FrontDoorFrame" parent="." index="11"]
+surface_material_override/0 = SubResource("StandardMaterial3D_8foul")
+
+[node name="StairsRailing" parent="." index="12"]
+surface_material_override/0 = SubResource("StandardMaterial3D_053x8")
+
+[node name="FrontDoorLeft" parent="." index="13"]
+surface_material_override/0 = SubResource("StandardMaterial3D_esoa1")
+
+[node name="FrontDoorRight" parent="." index="14"]
+surface_material_override/0 = SubResource("StandardMaterial3D_mq1x3")
+surface_material_override/1 = SubResource("StandardMaterial3D_pf8v6")
