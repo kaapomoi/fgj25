@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://dj4f0k1nadl3v"]
+
+[ext_resource type="PackedScene" uid="uid://dtjxkl6m0quau" path="res://Assets/Models/Bird.fbx" id="1_v0cue"]
+[ext_resource type="Texture2D" uid="uid://bntfngc3kwfmi" path="res://Assets/Textures/Bird.png" id="2_j268s"]
+[ext_resource type="Texture2D" uid="uid://bepqqwf8fjyau" path="res://Assets/Textures/Bird UV.png" id="3_kqeid"]
+[ext_resource type="Script" path="res://Scripts/bird_animation.gd" id="4_cywcw"]
+[ext_resource type="PackedScene" uid="uid://boamxfbo0ci0c" path="res://Scenes/Obstacles/hittable.tscn" id="4_rwhwj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6vn1y"]
+albedo_texture = ExtResource("2_j268s")
+roughness_texture = ExtResource("3_kqeid")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7go2f"]
+margin = 0.022
+radius = 0.321
+
+[node name="Bird" instance=ExtResource("1_v0cue")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/rotation = Quaternion(-0.55459, -0.523636, -0.25104, 0.595998)
+bones/2/rotation = Quaternion(-0.0345725, 0.0588222, 0.0444532, 0.996679)
+bones/3/rotation = Quaternion(-0.0151277, 0.0348392, 0.105646, 0.993678)
+bones/5/rotation = Quaternion(-0.555988, 0.522278, 0.240738, 0.600123)
+bones/6/rotation = Quaternion(-0.0500034, -0.0718235, -0.0378187, 0.995445)
+bones/7/rotation = Quaternion(0.00452595, -0.013242, -0.105317, 0.99434)
+bones/9/rotation = Quaternion(-1.22836e-09, 0.997403, -0.0720257, 1.33594e-07)
+bones/11/rotation = Quaternion(5.59411e-08, 0.745653, -0.666334, -4.99903e-08)
+
+[node name="Sphere" parent="Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_6vn1y")
+
+[node name="AnimationPlayer" parent="." index="1"]
+script = ExtResource("4_cywcw")
+
+[node name="Hittable" parent="." index="2" instance=ExtResource("4_rwhwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hittable" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.163232, 0)
+shape = SubResource("SphereShape3D_7go2f")
