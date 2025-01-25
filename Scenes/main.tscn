@@ -241,6 +241,22 @@ shape = SubResource("BoxShape3D_ysc2i")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Game"]
 transform = Transform3D(-0.230633, 0.430217, -0.872767, -0.0773392, 0.886005, 0.457179, 0.969963, 0.17294, -0.171069, -2.00561, 1.368, -0.393648)
 
+[node name="Score" type="Label3D" parent="Game"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.20836, 1.9022, -0.136667)
+alpha_scissor_threshold = 0.51
+text = "Score:"
+font_size = 40
+outline_size = 15
+horizontal_alignment = 0
+
+[node name="Highscore" type="Label3D" parent="Game"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25469, 1.65585, -0.136667)
+alpha_scissor_threshold = 0.51
+text = "Highscore:"
+font_size = 40
+outline_size = 15
+horizontal_alignment = 0
+
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
