@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=14 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ckfi3"]
@@ -6,22 +6,197 @@
 [ext_resource type="PackedScene" uid="uid://d2e1r7t61pq0p" path="res://Scenes/Obstacles/Flying/sphere_obstacle.tscn" id="3_ps0d2"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
 
+[sub_resource type="Shader" id="Shader_70brf"]
+code = "
+// NOTE: Shader automatically converted from Godot Engine 4.3.stable's PhysicalSkyMaterial.
+
+shader_type sky;
+render_mode use_debanding;
+
+uniform float rayleigh : hint_range(0, 64) = 2.0;
+uniform vec4 rayleigh_color : source_color = vec4(0.3, 0.405, 0.6, 1.0);
+uniform float mie : hint_range(0, 1) = 0.005;
+uniform float mie_eccentricity : hint_range(-1, 1) = 0.8;
+uniform vec4 mie_color : source_color = vec4(0.69, 0.729, 0.812, 1.0);
+
+uniform float turbidity : hint_range(0, 1000) = 10.0;
+uniform float sun_disk_scale : hint_range(0, 360) = 1.0;
+uniform vec4 ground_color : source_color = vec4(0.1, 0.07, 0.034, 1.0);
+uniform float exposure : hint_range(0, 128) = 1.0;
+
+uniform sampler2D night_sky : filter_linear, source_color, hint_default_black;
+
+const vec3 UP = vec3( 0.0, 1.0, 0.0 );
+
+// Optical length at zenith for molecules.
+const float rayleigh_zenith_size = 8.4e3;
+const float mie_zenith_size = 1.25e3;
+
+float henyey_greenstein(float cos_theta, float g) {
+	const float k = 0.0795774715459;
+	return k * (1.0 - g * g) / (pow(1.0 + g * g - 2.0 * g * cos_theta, 1.5));
+}
+
+void sky() {
+	if (LIGHT0_ENABLED) {
+		float zenith_angle = clamp( 1.0, -1.0, 1.0 );
+		float sun_energy = max(0.0, 1.0 - exp(-((PI * 0.5) - acos(zenith_angle)))) * LIGHT0_ENERGY;
+		float sun_fade = 1.0 - clamp(1.0 - exp(LIGHT0_DIRECTION.y), 0.0, 1.0);
+
+		// Rayleigh coefficients.
+		float rayleigh_coefficient = rayleigh - ( 1.0 * ( 1.0 - sun_fade ) );
+		vec3 rayleigh_beta = rayleigh_coefficient * rayleigh_color.rgb * 0.0001;
+		// mie coefficients from Preetham
+		vec3 mie_beta = turbidity * mie * mie_color.rgb * 0.000434;
+
+		// Optical length.
+		float zenith = acos(max(0.0, dot(UP, EYEDIR)));
+		float optical_mass = 1.0 / (cos(zenith) + 0.15 * pow(93.885 - degrees(zenith), -1.253));
+		float rayleigh_scatter = rayleigh_zenith_size * optical_mass;
+		float mie_scatter = mie_zenith_size * optical_mass;
+
+		// Light extinction based on thickness of atmosphere.
+		vec3 extinction = exp(-(rayleigh_beta * rayleigh_scatter + mie_beta * mie_scatter));
+
+		// In scattering.
+		float cos_theta = dot(EYEDIR, normalize(LIGHT0_DIRECTION));
+
+		float rayleigh_phase = (3.0 / (16.0 * PI)) * (1.0 + pow(cos_theta * 0.5 + 0.5, 2.0));
+		vec3 betaRTheta = rayleigh_beta * rayleigh_phase;
+
+		float mie_phase = henyey_greenstein(cos_theta, mie_eccentricity);
+		vec3 betaMTheta = mie_beta * mie_phase;
+
+		vec3 Lin = pow(sun_energy * ((betaRTheta + betaMTheta) / (rayleigh_beta + mie_beta)) * (1.0 - extinction), vec3(1.5));
+		// Hack from https://github.com/mrdoob/three.js/blob/master/examples/jsm/objects/Sky.js
+		Lin *= mix(vec3(1.0), pow(sun_energy * ((betaRTheta + betaMTheta) / (rayleigh_beta + mie_beta)) * extinction, vec3(0.5)), clamp(pow(1.0 - zenith_angle, 5.0), 0.0, 1.0));
+
+		// Hack in the ground color.
+		//Lin  *= mix(ground_color.rgb, vec3(1.0), smoothstep(-0.1, 0.1, dot(UP, EYEDIR)));
+
+		// Solar disk and out-scattering.
+		float sunAngularDiameterCos = cos(LIGHT0_SIZE * sun_disk_scale);
+		float sunAngularDiameterCos2 = cos(LIGHT0_SIZE * sun_disk_scale*0.5);
+		float sundisk = smoothstep(sunAngularDiameterCos, sunAngularDiameterCos2, cos_theta);
+		vec3 L0 = (sun_energy * extinction) * sundisk * LIGHT0_COLOR;
+		L0 += texture(night_sky, SKY_COORDS).xyz * extinction;
+
+		vec3 color = Lin + L0;
+		COLOR = pow(color, vec3(1.0 / (1.2 + (1.2 * sun_fade))));
+		COLOR *= exposure;
+	} else {
+		// There is no sun, so display night_sky and nothing else.
+		COLOR = texture(night_sky, SKY_COORDS).xyz;
+		COLOR *= exposure;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7afug"]
+shader = SubResource("Shader_70brf")
+shader_parameter/rayleigh = 1.998
+shader_parameter/rayleigh_color = Color(0.198519, 0.434522, 0.564436, 1)
+shader_parameter/mie = 0.315
+shader_parameter/mie_eccentricity = 0.745
+shader_parameter/mie_color = Color(0.510847, 0.756808, 0.956511, 1)
+shader_parameter/turbidity = 1.09
+shader_parameter/sun_disk_scale = 5.6
+shader_parameter/ground_color = Color(0.0962943, 0.0670083, 0.0320748, 1)
+shader_parameter/exposure = 1.54
+
+[sub_resource type="Sky" id="Sky_6m5t0"]
+sky_material = SubResource("ShaderMaterial_7afug")
+
+[sub_resource type="Environment" id="Environment_nvg77"]
+background_mode = 2
+sky = SubResource("Sky_6m5t0")
+sky_rotation = Vector3(0, 1.63712, -0.518363)
+reflected_light_source = 2
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.418429, 0.585287, 0.597588, 1)
+fog_sun_scatter = 0.05
+fog_density = 0.2345
+fog_aerial_perspective = 0.105
+fog_sky_affect = 0.135
+fog_depth_curve = 2.29739
+fog_depth_begin = 1.0
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_qqu8j"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qaqcv"]
-albedo_color = Color(0, 0.921569, 0, 1)
+[sub_resource type="Shader" id="Shader_6w3ly"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pwhtk"]
+render_priority = 0
+shader = SubResource("Shader_6w3ly")
+shader_parameter/albedo = Color(0, 0.921569, 0, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ysc2i"]
 size = Vector3(1.88586, 2.04004, 0.557312)
 
 [node name="Root" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nvg77")
+
 [node name="Game" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_feucm")
 
 [node name="MainCamera" type="Camera3D" parent="Game"]
-transform = Transform3D(1, 0, 0, 0, 0.9065, 0.422207, 0, -0.422207, 0.9065, 0, 1.22331, 1.10684)
+transform = Transform3D(1, 0, 0, 0, 0.9065, 0.422207, 0, -0.422207, 0.9065, 0, 1.55884, 1.91826)
 fov = 80.0
 
 [node name="Player" type="CharacterBody3D" parent="Game"]
@@ -46,7 +221,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.5, 0)
 radius = 10.0
 radial_segments = 100
 rings = 100
-material = SubResource("StandardMaterial3D_qaqcv")
+material = SubResource("ShaderMaterial_pwhtk")
 script = ExtResource("2_gljex")
 
 [node name="SphereObstacle" parent="Game/Globe" instance=ExtResource("3_ps0d2")]
