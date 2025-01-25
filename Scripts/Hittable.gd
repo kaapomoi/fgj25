@@ -1,7 +1,7 @@
 extends Area3D
 
 @onready var game = $"/root/Root/Game"
-@onready var bubble = $"/root/Root/Game/Bubble"
+@onready var player = $"/root/Root/Game/Player"
 
 
 # Called when the node enters the scene tree for the first time.
@@ -17,5 +17,5 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	bubble.receive_hit()
+	player.receive_hit()
 	pass # Replace with function body.
