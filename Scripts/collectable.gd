@@ -5,7 +5,7 @@ extends Node
 @onready var game = $"/root/Root/Game"
 @onready var audioplayer = $PickupSoundPlayer
 @onready var timer = $Timer
-@onready var box = $CSGBox3D
+@onready var sphere = $GraphicSphere
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,7 +23,7 @@ func _on_body_entered(body: Node3D) -> void:
 		audioplayer.play()	
 		timer.start()
 		player.receive_collectible()
-		box.queue_free()
+		sphere.queue_free()
 		
 
 func _on_timer_timeout() -> void:

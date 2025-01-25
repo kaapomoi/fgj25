@@ -1,12 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=15 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ckfi3"]
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
 [ext_resource type="PackedScene" uid="uid://d2e1r7t61pq0p" path="res://Scenes/Obstacles/Flying/sphere_obstacle.tscn" id="3_ps0d2"]
+[ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="3_x4r8r"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
-[ext_resource type="AudioStream" uid="uid://bobhvbc4yuaw1" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
-[ext_resource type="AudioStream" uid="uid://thn0dslw6dum" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
+[ext_resource type="AudioStream" uid="uid://wmsg1cbncw41" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
+[ext_resource type="AudioStream" uid="uid://cyi4r7fqhi81r" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
 
 [sub_resource type="Shader" id="Shader_70brf"]
 code = "
@@ -128,63 +129,6 @@ fog_depth_begin = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qqu8j"]
 
-[sub_resource type="Shader" id="Shader_6w3ly"]
-code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.
-
-shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
-
-uniform vec4 albedo : source_color;
-uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
-uniform float point_size : hint_range(0.1, 128.0, 0.1);
-
-uniform float roughness : hint_range(0.0, 1.0);
-uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
-uniform vec4 metallic_texture_channel;
-uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
-
-uniform float specular : hint_range(0.0, 1.0, 0.01);
-uniform float metallic : hint_range(0.0, 1.0, 0.01);
-
-uniform vec3 uv1_scale;
-uniform vec3 uv1_offset;
-uniform vec3 uv2_scale;
-uniform vec3 uv2_offset;
-
-void vertex() {
-	UV = UV * uv1_scale.xy + uv1_offset.xy;
-}
-
-void fragment() {
-	vec2 base_uv = UV;
-
-	vec4 albedo_tex = texture(texture_albedo, base_uv);
-	ALBEDO = albedo.rgb * albedo_tex.rgb;
-
-	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
-	METALLIC = metallic_tex * metallic;
-	SPECULAR = specular;
-
-	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
-	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
-	ROUGHNESS = roughness_tex * roughness;
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pwhtk"]
-render_priority = 0
-shader = SubResource("Shader_6w3ly")
-shader_parameter/albedo = Color(0, 0.921569, 0, 1)
-shader_parameter/point_size = 1.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_ysc2i"]
 size = Vector3(1.88586, 2.04004, 0.557312)
 
@@ -211,14 +155,13 @@ script = ExtResource("2_ckfi3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Game/Player"]
 process_mode = 1
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 shape = SubResource("SphereShape3D_qqu8j")
 
 [node name="Bubble" type="CSGSphere3D" parent="Game/Player"]
 process_mode = 1
-radius = 0.1
 radial_segments = 50
 rings = 50
+material = ExtResource("3_x4r8r")
 
 [node name="SpawnLocation" type="Node3D" parent="Game"]
 process_mode = 1
@@ -230,7 +173,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.5, 0)
 radius = 10.0
 radial_segments = 100
 rings = 100
-material = SubResource("ShaderMaterial_pwhtk")
 script = ExtResource("2_gljex")
 
 [node name="SphereObstacle" parent="Game/Globe" instance=ExtResource("3_ps0d2")]
@@ -261,20 +203,20 @@ transform = Transform3D(-0.230633, 0.430217, -0.872767, -0.0773392, 0.886005, 0.
 
 [node name="Score" type="Label3D" parent="Game"]
 process_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.20836, 1.9022, -0.136667)
+transform = Transform3D(0.340769, 0.274365, 0.899222, -0.0746676, 0.961347, -0.265024, -0.937177, 0.023169, 0.348083, -2.20836, 1.88818, -0.202885)
 alpha_scissor_threshold = 0.51
-text = "Score:"
+text = "Score: 0"
 font_size = 40
-outline_size = 15
+outline_size = 16
 horizontal_alignment = 0
 
 [node name="Highscore" type="Label3D" parent="Game"]
 process_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25469, 1.65585, -0.136667)
+transform = Transform3D(0.319086, 0.309399, 0.8958, -0.103819, 0.950932, -0.291461, -0.942022, 0, 0.33555, -2.25469, 1.65585, -0.136667)
 alpha_scissor_threshold = 0.51
 text = "Highscore:"
-font_size = 40
-outline_size = 15
+font_size = 20
+outline_size = 8
 horizontal_alignment = 0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Game"]
