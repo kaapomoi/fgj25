@@ -154,7 +154,8 @@ func spawn_obstacle(position_index : int) -> void:
 	if position_index < 3:
 		if !flying_obstacles.is_empty():
 			print("Trying to instantiate flying resource, can it init?? " + str(flying_obstacles[0].can_instantiate()))
-			var instance = flying_obstacles[0].instantiate() as Node3D
+			var random_obstacle = randi_range(0, ground_obstacles.size() - 1)
+			var instance = flying_obstacles[random_obstacle].instantiate() as Node3D
 			obstacles_parent.add_child(instance)
 			#set position and rotation
 			var spawn_position :Vector3 = _get_relative_spawn_location(position_index)
@@ -164,7 +165,8 @@ func spawn_obstacle(position_index : int) -> void:
 	else:
 		if !ground_obstacles.is_empty():
 			print("Trying to instantiate grounded resource, can it init?? " + str(ground_obstacles[0].can_instantiate()))
-			var instance = ground_obstacles[0].instantiate() as Node3D
+			var random_obstacle = randi_range(0, ground_obstacles.size() - 1)
+			var instance = ground_obstacles[random_obstacle].instantiate() as Node3D
 			obstacles_parent.add_child(instance)
 			var spawn_position :Vector3 = _get_relative_spawn_location(position_index)
 			instance.global_position = spawn_position
