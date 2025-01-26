@@ -1,21 +1,18 @@
-[gd_scene load_steps=33 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=25 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
-[ext_resource type="Script" path="res://Scripts/player.gd" id="2_ckfi3"]
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
-[ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="3_x4r8r"]
-[ext_resource type="AudioStream" uid="uid://crcgoi0uov3qi" path="res://Assets/Sounds/SFX/pop.wav" id="4_4pskm"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
 [ext_resource type="Shader" path="res://Assets/Shaders/grass.gdshader" id="4_q2pm4"]
-[ext_resource type="AudioStream" uid="uid://bobhvbc4yuaw1" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
-[ext_resource type="AudioStream" uid="uid://thn0dslw6dum" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
+[ext_resource type="AudioStream" uid="uid://wmsg1cbncw41" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
+[ext_resource type="AudioStream" uid="uid://cyi4r7fqhi81r" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
 [ext_resource type="PackedScene" uid="uid://dut0c6pxotg53" path="res://Scenes/stellwerk.tscn" id="8_dn6rm"]
 [ext_resource type="PackedScene" uid="uid://pmoi0ro8d1ke" path="res://Scenes/windmill.tscn" id="9_5c7em"]
 [ext_resource type="PackedScene" uid="uid://cbkbhq12cjbs6" path="res://Scenes/Church.tscn" id="10_7fwd0"]
 [ext_resource type="PackedScene" uid="uid://cqo8w2pyt51y7" path="res://Scenes/el_castillo.tscn" id="10_rkrfw"]
-[ext_resource type="PackedScene" uid="uid://cipt2ufc080jy" path="res://Assets/Models/Cloud1.fbx" id="11_5d5gj"]
-[ext_resource type="PackedScene" uid="uid://befu4ojxj56o1" path="res://Assets/Models/Cloud2.fbx" id="12_8uinu"]
-[ext_resource type="PackedScene" uid="uid://oy5r835n2ee5" path="res://Assets/Models/Cloud3.fbx" id="13_5daee"]
+[ext_resource type="PackedScene" uid="uid://d2lcnxrqxnyum" path="res://Assets/Models/Cloud1.fbx" id="11_5d5gj"]
+[ext_resource type="PackedScene" uid="uid://bdx888w7koaph" path="res://Assets/Models/Cloud2.fbx" id="12_8uinu"]
+[ext_resource type="PackedScene" uid="uid://cqd7a3tpf3oeo" path="res://Assets/Models/Cloud3.fbx" id="13_5daee"]
 
 [sub_resource type="Shader" id="Shader_70brf"]
 code = "
@@ -135,35 +132,6 @@ fog_sky_affect = 0.135
 fog_depth_curve = 2.29739
 fog_depth_begin = 1.0
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_qqu8j"]
-
-[sub_resource type="Curve" id="Curve_bsa26"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_c0gh6"]
-curve = SubResource("Curve_bsa26")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_duob5"]
-emission_shape = 1
-emission_sphere_radius = 1.0
-radial_velocity_min = -2.23517e-05
-radial_velocity_max = 1.99998
-gravity = Vector3(0, 0, 0)
-radial_accel_min = -2.23517e-06
-radial_accel_max = -2.23517e-06
-tangential_accel_min = -2.07
-tangential_accel_max = 2.44
-scale_min = 0.0
-scale_curve = SubResource("CurveTexture_c0gh6")
-
-[sub_resource type="SphereMesh" id="SphereMesh_7m1k4"]
-material = ExtResource("3_x4r8r")
-radius = 0.1
-height = 0.2
-radial_segments = 32
-rings = 16
-
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_m0t2t"]
 noise_type = 3
 
@@ -228,37 +196,6 @@ script = ExtResource("1_feucm")
 process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 0.9065, 0.422207, 0, -0.422207, 0.9065, 0, 1.55884, 1.91826)
 fov = 80.0
-
-[node name="Player" type="CharacterBody3D" parent="Game"]
-process_mode = 1
-collision_layer = 2
-motion_mode = 1
-script = ExtResource("2_ckfi3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Game/Player"]
-process_mode = 1
-shape = SubResource("SphereShape3D_qqu8j")
-
-[node name="Bubble" type="CSGSphere3D" parent="Game/Player"]
-process_mode = 1
-radial_segments = 50
-rings = 50
-material = ExtResource("3_x4r8r")
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Game/Player"]
-emitting = false
-amount = 64
-lifetime = 3.0
-one_shot = true
-explosiveness = 0.5
-randomness = 0.29
-fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_duob5")
-draw_pass_1 = SubResource("SphereMesh_7m1k4")
-
-[node name="PopPlayer" type="AudioStreamPlayer3D" parent="Game/Player"]
-stream = ExtResource("4_4pskm")
-bus = &"SFX"
 
 [node name="SpawnLocation" type="Node3D" parent="Game"]
 process_mode = 1
@@ -395,6 +332,7 @@ stream = ExtResource("7_3g4kw")
 
 [node name="GameEndTimer" type="Timer" parent="Game"]
 wait_time = 6.0
+one_shot = true
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -402,7 +340,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[connection signal="player_died" from="Game/Player" to="Game" method="_on_player_player_died"]
 [connection signal="timeout" from="Game/Globe/ObstacleTimer" to="Game/Globe" method="_on_timer_timeout"]
 [connection signal="timeout" from="Game/Globe/CollectableTimer" to="Game/Globe" method="_on_collectable_timer_timeout"]
 [connection signal="area_entered" from="Game/ObstacleKillZone" to="Game/ObstacleKillZone" method="_on_area_entered"]

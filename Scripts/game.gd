@@ -6,6 +6,7 @@ var difficulty_scaler_factor:float = 0.05
 
 var _score :int = 0
 var highscore :int = 0
+var player
 
 enum GAME_STATE {PLAYING = 0, PAUSED = 1, START = 2, END = 3}
 
@@ -23,9 +24,14 @@ const save_file_path = "user://save.json"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	player = preload("res://Scenes/player.tscn").instantiate()
+	add_child(player)
+	player.player_died.connect(_on_player_player_died)
 	_initialize_game()
-	pass # Replace with function body.
 
+
+func receive_collectable() -> void:
+	increase_score(1)
 
 func _initialize_game() -> void:
 	game_state = GAME_STATE.START
@@ -57,14 +63,20 @@ func _input(event: InputEvent) -> void:
 	
 func start_game() -> void:
 	if scene_tree:
-			scene_tree.set_pause(false)
-			game_state = GAME_STATE.PLAYING
+		scene_tree.set_pause(false)
+		game_state = GAME_STATE.PLAYING
+		var slow_scale = get_tree().create_tween()
+		slow_scale.set_ease(Tween.EASE_IN)
+		slow_scale.set_trans(Tween.TRANS_CIRC)
+		slow_scale.tween_property($Globe, "base_rotation_speed", PI/4, 6.0)
+
+		if not main_audio.playing:
+			main_audio.play()
 			
 func load_save_file() -> void:
 	var save_file = FileAccess.open(save_file_path, FileAccess.READ)
 	if save_file:
-		var json = JSON.new()
-		var save_data = json.parse_string(save_file.get_line())
+		var save_data = JSON.parse_string(save_file.get_line())
 		if save_data:
 			if save_data["highscore"]:
 				print("Save file Highscore: " + str(save_data["highscore"]))
@@ -82,7 +94,16 @@ func save_save_file() -> void:
 	
 func restart_game() -> void:
 	save_save_file()
-	scene_tree.reload_current_scene()
+	
+	difficulty = 1
+	_score = 0
+	game_state = GAME_STATE.START
+
+	player = preload("res://Scenes/player.tscn").instantiate()
+	add_child(player)
+	player.player_died.connect(_on_player_player_died)
+
+	#scene_tree.reload_current_scene()
 	pass
 	
 	
@@ -94,18 +115,22 @@ func increase_score(points: int) -> void:
 func _on_player_player_died() -> void:
 	if _score > highscore:
 		highscore = _score
-	#play sound
+
 	game_state = GAME_STATE.END
+
+	#play sound
 	main_audio.stop()
 	game_end_stream.play()
 	game_end_timer.start()
+
+	# Slow down the globe
 	var slow_scale = get_tree().create_tween()
 	slow_scale.set_ease(Tween.EASE_OUT)
 	slow_scale.set_trans(Tween.TRANS_CIRC)
 	slow_scale.tween_property($Globe, "base_rotation_speed", 0.0, 6.0)
-	pass # Replace with function body.
 
 
 func _on_game_end_timer_timeout() -> void:
+	player.queue_free()
+
 	restart_game()
-	pass # Replace with function body.

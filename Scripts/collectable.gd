@@ -1,7 +1,6 @@
 extends Node
 
 
-@onready var player = $"/root/Root/Game/Player"
 @onready var game = $"/root/Root/Game"
 @onready var audioplayer = $PickupSoundPlayer
 @onready var timer = $Timer
@@ -20,12 +19,12 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	if player && game.game_state != game.GAME_STATE.END:
+	if game.game_state != game.GAME_STATE.END:
 		audioplayer.play()	
 		timer.start()
 		particles.emitting = true
-		player.receive_collectible()
-		sphere.queue_free()
+		game.receive_collectable()
+		sphere.hide()
 		
 
 func _on_timer_timeout() -> void:

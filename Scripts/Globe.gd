@@ -8,7 +8,7 @@ extends CSGSphere3D
 @onready var base_spawn_location3: Node3D = $"../SpawnLocation3"
 @onready var base_spawn_location4: Node3D = $"../SpawnLocation4"
 
-var base_rotation_speed :float = PI/4
+var base_rotation_speed :float = 0.0
 var rotation_difficulty_multiplier :float = 0.3
 var rotation_speed :float = 0.0
 var max_rotation_speed :float = PI/2
@@ -142,7 +142,7 @@ func spawn_collectables_between_obstacles(position_index: int) -> void:
 	add_child(instance3)
 	instance3.global_position = _get_collectable_spawn_location(position_index, 3)
 	
-func _handle_delta_rotation_and_spawning(delta: float) -> void:
+func _handle_delta_rotation_and_spawning(_delta: float) -> void:
 	delta_rotation += rotation_speed
 	if delta_rotation > base_obstacle_spawn_interval:
 		_spawn_set_of_obstacles_and_collectable()

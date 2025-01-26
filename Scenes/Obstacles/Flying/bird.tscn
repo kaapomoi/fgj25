@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://joi44u72nu6p"]
 
-[ext_resource type="Texture2D" uid="uid://bntfngc3kwfmi" path="res://Assets/Textures/Bird.png" id="2_j268s"]
-[ext_resource type="Texture2D" uid="uid://bepqqwf8fjyau" path="res://Assets/Textures/Bird UV.png" id="3_kqeid"]
+[ext_resource type="Texture2D" uid="uid://c42iluoo8pe1c" path="res://Assets/Textures/Bird.png" id="2_j268s"]
+[ext_resource type="Texture2D" uid="uid://b4kluq7nqbinr" path="res://Assets/Textures/Bird UV.png" id="3_kqeid"]
 [ext_resource type="Script" path="res://Scripts/bird_animation.gd" id="4_cywcw"]
 [ext_resource type="PackedScene" uid="uid://boamxfbo0ci0c" path="res://Scenes/Obstacles/hittable.tscn" id="4_rwhwj"]
 
