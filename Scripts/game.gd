@@ -24,10 +24,13 @@ const save_file_path = "user://save.json"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_initialize_game()
+
 	player = preload("res://Scenes/player.tscn").instantiate()
 	add_child(player)
 	player.player_died.connect(_on_player_player_died)
-	_initialize_game()
+	player.player_ready.connect(show_tutorial)
+	player.get_tree().set_pause(false)
 
 
 func receive_collectable() -> void:
