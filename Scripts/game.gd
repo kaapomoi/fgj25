@@ -37,7 +37,7 @@ func _initialize_game() -> void:
 	game_state = GAME_STATE.START
 	scene_tree.set_pause(true)
 	load_save_file()
-	highscore_text.text = "Highscore: " + str(highscore)
+	highscore_text.text = "Highscore: " + str(highscore)	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -51,7 +51,11 @@ func scale_difficulty_timer(delta: float) -> void:
 	pass
 	
 func _input(event: InputEvent) -> void:
-	if game_state == GAME_STATE.START && event.is_action_pressed("ui_accept"):
+	if game_state == GAME_STATE.START && (event.is_action_pressed("ui_accept") 
+										|| event.is_action_pressed("ui_up")
+										|| event.is_action_pressed("ui_down")
+										|| event.is_action_pressed("ui_left")
+										|| event.is_action_pressed("ui_right")):
 		start_game()
 			
 			
@@ -67,8 +71,10 @@ func start_game() -> void:
 		game_state = GAME_STATE.PLAYING
 		var slow_scale = get_tree().create_tween()
 		slow_scale.set_ease(Tween.EASE_IN)
-		slow_scale.set_trans(Tween.TRANS_CIRC)
+		slow_scale.set_trans(Tween.TRANS_SINE)
 		slow_scale.tween_property($Globe, "base_rotation_speed", PI/4, 6.0)
+		update_score_text()
+		$TutorialLabel.hide()
 
 		if not main_audio.playing:
 			main_audio.play()
@@ -93,28 +99,31 @@ func save_save_file() -> void:
 	
 	
 func restart_game() -> void:
-	save_save_file()
-	
 	difficulty = 1
 	_score = 0
 	game_state = GAME_STATE.START
+
 	$Globe.despawn_obstacles_and_collectables()
+
 	player = preload("res://Scenes/player.tscn").instantiate()
 	add_child(player)
 	player.player_died.connect(_on_player_player_died)
+	player.player_ready.connect(show_tutorial)
 
-	#scene_tree.reload_current_scene()
-	pass
-	
+func show_tutorial() -> void:
+	$TutorialLabel.show()
 	
 func increase_score(points: int) -> void:
 	_score += points
-	score_text.text = "Score: " + str(_score)
+	update_score_text()
 
+func update_score_text() -> void:
+	score_text.text = "Score: " + str(_score)
 
 func _on_player_player_died() -> void:
 	if _score > highscore:
 		highscore = _score
+		save_save_file()
 
 	game_state = GAME_STATE.END
 
@@ -129,6 +138,7 @@ func _on_player_player_died() -> void:
 	slow_scale.set_trans(Tween.TRANS_CIRC)
 	slow_scale.tween_property($Globe, "base_rotation_speed", 0.0, 6.0)
 
+	$ObstacleDespawnTimer.start()
 
 func _on_game_end_timer_timeout() -> void:
 	player.queue_free()

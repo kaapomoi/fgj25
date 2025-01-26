@@ -3,6 +3,7 @@ extends CharacterBody3D
 
 @onready var particle_effects = $GPUParticles3D
 @onready var pop_sound_player = $PopPlayer
+@onready var spawn_animation = $AnimationPlayer
 
 const top_left = Vector3(-1, 1, 0)
 const bot_right = Vector3(1, 0, 0)
@@ -11,6 +12,10 @@ var moving = false
 var movement_tween
 
 signal player_died
+signal player_ready
+
+func _ready() -> void:
+	spawn_animation.play("RESET")
 
 func _create_tween() -> void:
 	movement_tween = get_tree().create_tween()
@@ -24,10 +29,10 @@ func _finished_moving() -> void:
 
 func receive_hit() -> void:
 	print("Got it")
+	emit_signal("player_died")
 	$Bubble.queue_free()
 	particle_effects.emitting = true
 	pop_sound_player.play()
-	emit_signal("player_died")
 	pass
 	
 
@@ -45,27 +50,32 @@ func _physics_process(delta: float) -> void:
 	#elif Input.is_action_just_pressed("ui_down"):
 	#    direction.y = -1
 
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	var direction := (transform.basis * Vector3(input_dir.x, -input_dir.y, 0)).normalized()
-	if direction:
-		if not moving:
-			if direction.x > 0:
-				if position.x < bot_right.x :
-					_create_tween()
-					movement_tween.tween_property(self, "position:x", position.x + 1, 0.1)
-			elif direction.x < 0: 
-				if position.x > top_left.x :
-					_create_tween()
-					movement_tween.tween_property(self, "position:x", position.x - 1, 0.1)
-			elif direction.y < 0:
-				if position.y > bot_right.y : 
-					_create_tween()
-					movement_tween.tween_property(self, "position:y", position.y - 1, 0.1)
-			elif direction.y > 0:
-				if position.y < top_left.y :
-					_create_tween()
-					movement_tween.tween_property(self, "position:y", position.y + 1, 0.1)
+	if not spawn_animation.is_playing():
+		var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		var direction := (transform.basis * Vector3(input_dir.x, -input_dir.y, 0)).normalized()
+		if direction:
+			if not moving:
+				if direction.x > 0:
+					if position.x < bot_right.x :
+						_create_tween()
+						movement_tween.tween_property(self, "position:x", position.x + 1, 0.1)
+				elif direction.x < 0: 
+					if position.x > top_left.x :
+						_create_tween()
+						movement_tween.tween_property(self, "position:x", position.x - 1, 0.1)
+				elif direction.y < 0:
+					if position.y > bot_right.y : 
+						_create_tween()
+						movement_tween.tween_property(self, "position:y", position.y - 1, 0.1)
+				elif direction.y > 0:
+					if position.y < top_left.y :
+						_create_tween()
+						movement_tween.tween_property(self, "position:y", position.y + 1, 0.1)
 
-	# Clamp the player's position to the screen.
-	position.x = clamp(position.x, top_left.x, bot_right.x)
-	position.y = clamp(position.y, bot_right.y, top_left.y)
+		# Clamp the player's position to the screen.
+		position.x = clamp(position.x, top_left.x, bot_right.x)
+		position.y = clamp(position.y, bot_right.y, top_left.y)
+
+
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
+	emit_signal("player_ready")

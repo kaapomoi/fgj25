@@ -178,6 +178,13 @@ func despawn_obstacles_and_collectables() -> void:
 	for c in obstacles_parent.get_children():
 		c.queue_free()
 
+func _on_obstacle_despawn_timer_timeout() -> void:
+	for c in obstacles_parent.get_children():
+		var scale_tween = get_tree().create_tween()
+		scale_tween.set_ease(Tween.EASE_OUT)
+		scale_tween.set_trans(Tween.TRANS_SINE)
+		scale_tween.tween_property(c, "scale", Vector3(0.001, 0.001, 0.001), 0.5)
+
 func _get_relative_spawn_location(position_index: int) -> Vector3:
 	var spawn_location = Vector3(0.0, - radius,  - radius - spawn_radius_offset) + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
 	#spawn_location = base_spawn_location.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
@@ -192,3 +199,5 @@ func _get_collectable_spawn_location(position_index: int, i: int) -> Vector3:
 		return base_spawn_location4.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
 	
 	return Vector3.ZERO
+
+
