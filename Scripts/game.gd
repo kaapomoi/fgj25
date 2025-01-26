@@ -98,7 +98,7 @@ func restart_game() -> void:
 	difficulty = 1
 	_score = 0
 	game_state = GAME_STATE.START
-
+	$Globe.despawn_obstacles_and_collectables()
 	player = preload("res://Scenes/player.tscn").instantiate()
 	add_child(player)
 	player.player_died.connect(_on_player_player_died)

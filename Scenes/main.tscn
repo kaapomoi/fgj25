@@ -889,6 +889,8 @@ transform = Transform3D(0.0938734, -0.0343816, 0.00238611, 0.0138231, 0.043903, 
 [node name="SmallTreeWithLeave3" parent="Game/Globe/Trees/TreeGroup2" instance=ExtResource("15_eexjj")]
 transform = Transform3D(0.0793918, -0.0607556, 0.00238611, 0.02626, 0.0378016, 0.0887775, -0.0548394, -0.0698555, 0.0459658, -4.82582, 3.31234, -8.11)
 
+[node name="Obstacles" type="Node3D" parent="Game/Globe"]
+
 [node name="ObstacleKillZone" type="Area3D" parent="Game"]
 process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.935, 3.01)

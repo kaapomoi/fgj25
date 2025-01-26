@@ -7,6 +7,7 @@ extends CSGSphere3D
 @onready var base_spawn_location2: Node3D = $"../SpawnLocation2"
 @onready var base_spawn_location3: Node3D = $"../SpawnLocation3"
 @onready var base_spawn_location4: Node3D = $"../SpawnLocation4"
+@onready var obstacles_parent :Node3D = $Obstacles
 
 var base_rotation_speed :float = 0.0
 var rotation_difficulty_multiplier :float = 0.3
@@ -126,20 +127,20 @@ func _spawn_set_of_obstacles_and_collectable() -> void:
 func spawn_collectable(position_index : int) -> void:
 	var instance = collectable.instantiate() as Node3D
 	if instance:
-		add_child(instance)
+		obstacles_parent.add_child(instance)
 		var spawn_position :Vector3 = _get_relative_spawn_location(position_index)
 		instance.global_position = spawn_position
 		instance.rotate_x(-PI/2 - rotation.x)
 		
 func spawn_collectables_between_obstacles(position_index: int) -> void:
 	var instance1 = collectable.instantiate() as Node3D
-	add_child(instance1)
+	obstacles_parent.add_child(instance1)
 	instance1.global_position = _get_collectable_spawn_location(position_index, 1)
 	var instance2 = collectable.instantiate() as Node3D
-	add_child(instance2)
+	obstacles_parent.add_child(instance2)
 	instance2.global_position = _get_collectable_spawn_location(position_index, 2)
 	var instance3 = collectable.instantiate() as Node3D
-	add_child(instance3)
+	obstacles_parent.add_child(instance3)
 	instance3.global_position = _get_collectable_spawn_location(position_index, 3)
 	
 func _handle_delta_rotation_and_spawning(_delta: float) -> void:
@@ -154,7 +155,7 @@ func spawn_obstacle(position_index : int) -> void:
 		if !flying_obstacles.is_empty():
 			print("Trying to instantiate flying resource, can it init?? " + str(flying_obstacles[0].can_instantiate()))
 			var instance = flying_obstacles[0].instantiate() as Node3D
-			add_child(instance)
+			obstacles_parent.add_child(instance)
 			#set position and rotation
 			var spawn_position :Vector3 = _get_relative_spawn_location(position_index)
 			instance.global_position = spawn_position
@@ -164,12 +165,16 @@ func spawn_obstacle(position_index : int) -> void:
 		if !ground_obstacles.is_empty():
 			print("Trying to instantiate grounded resource, can it init?? " + str(ground_obstacles[0].can_instantiate()))
 			var instance = ground_obstacles[0].instantiate() as Node3D
-			add_child(instance)
+			obstacles_parent.add_child(instance)
 			var spawn_position :Vector3 = _get_relative_spawn_location(position_index)
 			instance.global_position = spawn_position
 			#instance.global_rotate(Vector3(1, 0, 0), -PI/4)
 			instance.rotate_x(-PI/2 - rotation.x)
 	pass
+	
+func despawn_obstacles_and_collectables() -> void:
+	for c in obstacles_parent.get_children():
+		c.queue_free()
 
 func _get_relative_spawn_location(position_index: int) -> Vector3:
 	var spawn_location = Vector3(0.0, - radius,  - radius - spawn_radius_offset) + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
