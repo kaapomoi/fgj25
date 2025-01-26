@@ -46,3 +46,7 @@ AstroDev ,Fernando Ferreira
 ## Church
 https://opengameart.org/content/medieval-church-interior
 AnyRPG
+
+
+## Clouds and Trees
+https://opengameart.org/content/4-trees-3-clouds-and-2-bushes Quaternius
