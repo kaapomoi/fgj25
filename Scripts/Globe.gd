@@ -35,6 +35,10 @@ var spawn_radiant_offset :float = PI/2
 var flying_obstacles :Array = []
 var ground_obstacles :Array = []
 const flying_obstacles_path = "res://Scenes/Obstacles/Flying/"
+@onready var kite = preload("res://Scenes/Obstacles/Flying/kite.tscn")
+@onready var bird = preload("res://Scenes/Obstacles/Flying/bird.tscn")
+@onready var cat = preload("res://Scenes/Obstacles/Ground/Cat.tscn")
+@onready var plant = preload("res://Scenes/Obstacles/Ground/white_flower.tscn")
 const grounded_obstacles_path = "res://Scenes/Obstacles/Ground/"
 
 #collectables
@@ -96,6 +100,11 @@ func _load_obstacle_resources() -> void:
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
+		
+	ground_obstacles.append(cat)
+	ground_obstacles.append(plant)
+	flying_obstacles.append(bird)
+	flying_obstacles.append(kite)
 
 func _calculate_current_open_spots() -> void:
 	open_spots = clampi(floori(7.0 - game.difficulty), 1, 5)
@@ -199,5 +208,3 @@ func _get_collectable_spawn_location(position_index: int, i: int) -> Vector3:
 		return base_spawn_location4.position + Vector3(spawn_offset[position_index].x, 0.0, spawn_offset[position_index].y)
 	
 	return Vector3.ZERO
-
-
