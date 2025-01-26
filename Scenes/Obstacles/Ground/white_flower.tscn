@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=4 uid="uid://pja5mkwswni7"]
 
 [ext_resource type="PackedScene" uid="uid://boamxfbo0ci0c" path="res://Scenes/Obstacles/hittable.tscn" id="1_5vs5j"]
-[ext_resource type="Texture2D" uid="uid://d00g0paxsa5ol" path="res://Assets/Textures/white_flower.tga" id="2_cbl2y"]
+[ext_resource type="Texture2D" uid="uid://cwi37lki8mnxd" path="res://Assets/Textures/white_flower.tga" id="2_cbl2y"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kpvvc"]
 size = Vector3(0.544922, 1.20686, 0.376953)
@@ -44,7 +44,6 @@ shadow_mesh = SubResource("ArrayMesh_rwu7e")
 albedo_texture = ExtResource("2_cbl2y")
 
 [node name="Hittable" instance=ExtResource("1_5vs5j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]

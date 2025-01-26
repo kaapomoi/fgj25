@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/collectable.gd" id="1_a7eje"]
 [ext_resource type="Material" uid="uid://cqlpo0fxr5fcs" path="res://Assets/Materials/bubble_opaque.material" id="2_setpj"]
 [ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="2_u5okv"]
-[ext_resource type="AudioStream" uid="uid://dd6d4rdyyoci0" path="res://Assets/Sounds/SFX/pickup.wav" id="2_vvru6"]
+[ext_resource type="AudioStream" uid="uid://p3aykvdjwnlh" path="res://Assets/Sounds/SFX/pickup.wav" id="2_vvru6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1u3fc"]
 size = Vector3(0.110291, 0.103271, 0.107849)
