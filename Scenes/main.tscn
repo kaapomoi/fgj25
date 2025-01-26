@@ -944,7 +944,8 @@ one_shot = true
 
 [node name="TutorialLabel" type="Label3D" parent="Game"]
 process_mode = 1
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, -1.03974, 0, -3.80192)
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, -1.03974, 0.504645, -3.54923)
+visible = false
 alpha_scissor_threshold = 0.51
 text = "Press any key to start"
 font_size = 40
