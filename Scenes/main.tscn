@@ -1,18 +1,21 @@
-[gd_scene load_steps=30 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=33 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ckfi3"]
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
 [ext_resource type="Material" uid="uid://c2b0414b435dn" path="res://Assets/Materials/bubble.material" id="3_x4r8r"]
-[ext_resource type="AudioStream" uid="uid://ig8eytsfscvj" path="res://Assets/Sounds/SFX/pop.wav" id="4_4pskm"]
+[ext_resource type="AudioStream" uid="uid://crcgoi0uov3qi" path="res://Assets/Sounds/SFX/pop.wav" id="4_4pskm"]
 [ext_resource type="Script" path="res://Scripts/obstacle_kill_zone.gd" id="4_nsqt2"]
 [ext_resource type="Shader" path="res://Assets/Shaders/grass.gdshader" id="4_q2pm4"]
-[ext_resource type="AudioStream" uid="uid://wmsg1cbncw41" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
-[ext_resource type="AudioStream" uid="uid://cyi4r7fqhi81r" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
+[ext_resource type="AudioStream" uid="uid://bobhvbc4yuaw1" path="res://Assets/Sounds/Music/one.mp3" id="6_64eyh"]
+[ext_resource type="AudioStream" uid="uid://thn0dslw6dum" path="res://Assets/Sounds/SFX/game_end.wav" id="7_3g4kw"]
 [ext_resource type="PackedScene" uid="uid://dut0c6pxotg53" path="res://Scenes/stellwerk.tscn" id="8_dn6rm"]
 [ext_resource type="PackedScene" uid="uid://pmoi0ro8d1ke" path="res://Scenes/windmill.tscn" id="9_5c7em"]
 [ext_resource type="PackedScene" uid="uid://cbkbhq12cjbs6" path="res://Scenes/Church.tscn" id="10_7fwd0"]
 [ext_resource type="PackedScene" uid="uid://cqo8w2pyt51y7" path="res://Scenes/el_castillo.tscn" id="10_rkrfw"]
+[ext_resource type="PackedScene" uid="uid://cipt2ufc080jy" path="res://Assets/Models/Cloud1.fbx" id="11_5d5gj"]
+[ext_resource type="PackedScene" uid="uid://befu4ojxj56o1" path="res://Assets/Models/Cloud2.fbx" id="12_8uinu"]
+[ext_resource type="PackedScene" uid="uid://oy5r835n2ee5" path="res://Assets/Models/Cloud3.fbx" id="13_5daee"]
 
 [sub_resource type="Shader" id="Shader_70brf"]
 code = "
@@ -301,6 +304,53 @@ transform = Transform3D(0.461903, -0.19143, -7.45058e-09, -0.142104, -0.342883, 
 
 [node name="Church" parent="Game/Globe" instance=ExtResource("10_7fwd0")]
 transform = Transform3D(0.0618836, 0.0327173, 0, 0.0189553, -0.0358533, -0.0570547, -0.0266668, 0.0504393, -0.0405557, 4.43867, -4.63159, 6.51998)
+
+[node name="Cloudgroup1" type="Node3D" parent="Game/Globe"]
+
+[node name="Cloud1" parent="Game/Globe/Cloudgroup1" instance=ExtResource("11_5d5gj")]
+transform = Transform3D(0.993453, 0, 0, 0, 0.993453, 0, 0, 0, 0.993453, 4.13445, 10.4313, -5.48809)
+
+[node name="Cloud6" parent="Game/Globe/Cloudgroup1" instance=ExtResource("11_5d5gj")]
+transform = Transform3D(-0.204162, -0.121628, -0.964611, -0.508452, 0.853478, 0, 0.8287, 0.493691, -0.237645, -4.46241, -11.5659, -6.73591)
+
+[node name="Cloud2" parent="Game/Globe/Cloudgroup1" instance=ExtResource("12_8uinu")]
+transform = Transform3D(-0.043811, -0.401456, -0.91483, 0.77458, 0.564678, -0.284893, 0.630956, -0.721091, 0.286221, -4.9191, 7.54278, -9.18058)
+
+[node name="Cloud5" parent="Game/Globe/Cloudgroup1" instance=ExtResource("12_8uinu")]
+transform = Transform3D(-0.302187, 0.267899, -0.91483, 0.012756, -0.958474, -0.284893, -0.953163, -0.0977604, 0.286221, 3.40968, -10.9592, -6.00248)
+
+[node name="Cloud3" parent="Game/Globe/Cloudgroup1" instance=ExtResource("13_5daee")]
+transform = Transform3D(0.994578, 0, -0.10399, 0, 1, 0, 0.10399, 0, 0.994578, 1.58877, 0, -14.8337)
+
+[node name="Cloud4" parent="Game/Globe/Cloudgroup1" instance=ExtResource("13_5daee")]
+transform = Transform3D(0.818644, -0.564808, -0.10399, 0.567887, 0.823107, 0, 0.0855952, -0.0590548, 0.994578, 4.40107, -6.476, -12.4087)
+
+[node name="Cloud7" parent="Game/Globe/Cloudgroup1" instance=ExtResource("13_5daee")]
+transform = Transform3D(-0.133204, -0.211396, -0.968281, 0.948017, -0.312063, -0.0622866, -0.288998, -0.926244, 0.241975, -3.81349, -2.81314, -12.0356)
+
+[node name="Cloudgroup2" type="Node3D" parent="Game/Globe"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Cloud1" parent="Game/Globe/Cloudgroup2" instance=ExtResource("11_5d5gj")]
+transform = Transform3D(0.993453, 0, 0, 0, 0.993453, 0, 0, 0, 0.993453, 4.13445, 10.4313, -5.48809)
+
+[node name="Cloud6" parent="Game/Globe/Cloudgroup2" instance=ExtResource("11_5d5gj")]
+transform = Transform3D(-0.204162, -0.121628, -0.964611, -0.508452, 0.853478, 0, 0.8287, 0.493691, -0.237645, -4.46241, -11.5659, -6.73591)
+
+[node name="Cloud2" parent="Game/Globe/Cloudgroup2" instance=ExtResource("12_8uinu")]
+transform = Transform3D(-0.043811, -0.401456, -0.91483, 0.77458, 0.564678, -0.284893, 0.630956, -0.721091, 0.286221, -4.9191, 7.54278, -9.18058)
+
+[node name="Cloud5" parent="Game/Globe/Cloudgroup2" instance=ExtResource("12_8uinu")]
+transform = Transform3D(-0.302187, 0.267899, -0.91483, 0.012756, -0.958474, -0.284893, -0.953163, -0.0977604, 0.286221, 3.40968, -10.9592, -6.00248)
+
+[node name="Cloud3" parent="Game/Globe/Cloudgroup2" instance=ExtResource("13_5daee")]
+transform = Transform3D(0.994578, 0, -0.10399, 0, 1, 0, 0.10399, 0, 0.994578, 1.58877, 0, -14.8337)
+
+[node name="Cloud4" parent="Game/Globe/Cloudgroup2" instance=ExtResource("13_5daee")]
+transform = Transform3D(0.818644, -0.564808, -0.10399, 0.567887, 0.823107, 0, 0.0855952, -0.0590548, 0.994578, 4.40107, -6.476, -12.4087)
+
+[node name="Cloud7" parent="Game/Globe/Cloudgroup2" instance=ExtResource("13_5daee")]
+transform = Transform3D(-0.133204, -0.211396, -0.968281, 0.948017, -0.312063, -0.0622866, -0.288998, -0.926244, 0.241975, -3.81349, -2.81314, -12.0356)
 
 [node name="ObstacleKillZone" type="Area3D" parent="Game"]
 process_mode = 1
