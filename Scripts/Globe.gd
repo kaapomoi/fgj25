@@ -154,7 +154,7 @@ func spawn_obstacle(position_index : int) -> void:
 	if position_index < 3:
 		if !flying_obstacles.is_empty():
 			print("Trying to instantiate flying resource, can it init?? " + str(flying_obstacles[0].can_instantiate()))
-			var random_obstacle = randi_range(0, ground_obstacles.size() - 1)
+			var random_obstacle = randi_range(0, flying_obstacles.size() - 1)
 			var instance = flying_obstacles[random_obstacle].instantiate() as Node3D
 			obstacles_parent.add_child(instance)
 			#set position and rotation
