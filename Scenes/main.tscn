@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://b0dnmh5v0ftm4"]
+[gd_scene load_steps=31 format=3 uid="uid://b0dnmh5v0ftm4"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_feucm"]
 [ext_resource type="Script" path="res://Scripts/Globe.gd" id="2_gljex"]
@@ -183,6 +183,203 @@ normal_texture = SubResource("NoiseTexture2D_3ga3k")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ysc2i"]
 size = Vector3(1.88586, 2.04004, 0.557312)
+
+[sub_resource type="Animation" id="Animation_8mygq"]
+resource_name = "move_to_middle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-2.153, 1.878, -0.203), Vector3(-2.16422, 1.97202, -2.70947), Vector3(0, 0.922, -0.203)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.268229, 1.20147, -0.0775142), Vector3(0.136529, 0.607893, -0.023327), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_5fgrd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-2.20836, 1.88818, -0.202885)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.268229, 1.20147, -0.0775142)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:scale:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:scale:z")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-2.20836, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1.88818, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:position:z")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-0.202885, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_1xssd"]
+resource_name = "bing"
+length = 0.2
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.1, 0, 0.1, 0, 1, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0, 0.0333333, 0.2)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.2, -0.1, 0, 0.1, 0, 1, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0, 0.0333333, 0.2)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.1, 0, 0.1, 0, 1, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0, 0.0333333, 0.2)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-2.20836, -0.25, 0, 0.25, 0, -2.208, -0.1, 0, 0.1, 0, -2.20836, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0, 0.0333333, 0.2)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1.88818, -0.25, 0, 0.25, 0, 1.918, -0.1, 0, 0.1, 0, 1.88818, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0, 0.0333333, 0.2)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:position:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-0.202885, -0.25, 0, 0.25, 0, -0.203, -0.1, 0, 0.1, 0, -0.202885, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0, 0.0333333, 0.2)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c2r1t"]
+_data = {
+"RESET": SubResource("Animation_5fgrd"),
+"bing": SubResource("Animation_1xssd"),
+"move_to_middle": SubResource("Animation_8mygq")
+}
 
 [node name="Root" type="Node3D"]
 
@@ -910,18 +1107,22 @@ transform = Transform3D(-0.230633, 0.430217, -0.872767, -0.0773392, 0.886005, 0.
 
 [node name="Score" type="Label3D" parent="Game"]
 process_mode = 1
-transform = Transform3D(0.340769, 0.274365, 0.899222, -0.0746676, 0.961347, -0.265024, -0.937177, 0.023169, 0.348083, -2.20836, 1.88818, -0.202885)
+transform = Transform3D(0.340769, 0.274365, 0.899222, -0.0746676, 0.961347, -0.265024, -0.937177, 0.0231691, 0.348083, -2.20836, 1.88818, -0.202885)
 alpha_scissor_threshold = 0.51
-text = "Score: 0"
+text = "0"
 font_size = 40
 outline_size = 16
-horizontal_alignment = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Game/Score"]
+libraries = {
+"": SubResource("AnimationLibrary_c2r1t")
+}
 
 [node name="Highscore" type="Label3D" parent="Game"]
 process_mode = 1
 transform = Transform3D(0.319086, 0.309399, 0.8958, -0.103819, 0.950932, -0.291461, -0.942022, 0, 0.33555, -2.25469, 1.65585, -0.136667)
 alpha_scissor_threshold = 0.51
-text = "Highscore: 0"
+text = "HI: 0"
 font_size = 20
 outline_size = 8
 horizontal_alignment = 0
@@ -944,13 +1145,11 @@ one_shot = true
 
 [node name="TutorialLabel" type="Label3D" parent="Game"]
 process_mode = 1
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, -1.03974, 0.504645, -3.54923)
-visible = false
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505, -3.549)
 alpha_scissor_threshold = 0.51
 text = "Press any key to start"
 font_size = 40
 outline_size = 16
-horizontal_alignment = 0
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3

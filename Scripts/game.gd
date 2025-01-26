@@ -8,9 +8,9 @@ var _score :int = 0
 var highscore :int = 0
 var player
 
-enum GAME_STATE {PLAYING = 0, PAUSED = 1, START = 2, END = 3}
+enum GAME_STATE {PLAYING = 0, PAUSED = 1, START = 2, END = 3, STARTING = 4}
 
-var game_state: GAME_STATE = GAME_STATE.START
+var game_state: GAME_STATE = GAME_STATE.STARTING
 
 @onready var game_end_stream = $GameEndStreamPlayer
 @onready var main_audio = $AudioStreamPlayer
@@ -29,18 +29,19 @@ func _ready() -> void:
 	player = preload("res://Scenes/player.tscn").instantiate()
 	add_child(player)
 	player.player_died.connect(_on_player_player_died)
-	player.player_ready.connect(show_tutorial)
+	player.player_ready.connect(player_is_ready)
 	player.get_tree().set_pause(false)
 
 
 func receive_collectable() -> void:
+	$Score.get_node("AnimationPlayer").play("bing")
 	increase_score(1)
 
 func _initialize_game() -> void:
-	game_state = GAME_STATE.START
+	game_state = GAME_STATE.STARTING
 	scene_tree.set_pause(true)
 	load_save_file()
-	highscore_text.text = "Highscore: " + str(highscore)	
+	highscore_text.text = "HI: " + str(highscore)	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -77,6 +78,7 @@ func start_game() -> void:
 		slow_scale.set_trans(Tween.TRANS_SINE)
 		slow_scale.tween_property($Globe, "base_rotation_speed", PI/4, 6.0)
 		update_score_text()
+		score_text.get_node("AnimationPlayer").play_backwards("move_to_middle")
 		$TutorialLabel.hide()
 
 		if not main_audio.playing:
@@ -104,16 +106,17 @@ func save_save_file() -> void:
 func restart_game() -> void:
 	difficulty = 1
 	_score = 0
-	game_state = GAME_STATE.START
+	game_state = GAME_STATE.STARTING
 
 	$Globe.despawn_obstacles_and_collectables()
 
 	player = preload("res://Scenes/player.tscn").instantiate()
 	add_child(player)
 	player.player_died.connect(_on_player_player_died)
-	player.player_ready.connect(show_tutorial)
+	player.player_ready.connect(player_is_ready)
 
-func show_tutorial() -> void:
+func player_is_ready() -> void:
+	game_state = GAME_STATE.START
 	$TutorialLabel.show()
 	
 func increase_score(points: int) -> void:
@@ -121,7 +124,7 @@ func increase_score(points: int) -> void:
 	update_score_text()
 
 func update_score_text() -> void:
-	score_text.text = "Score: " + str(_score)
+	score_text.text = str(_score)
 
 func _on_player_player_died() -> void:
 	if _score > highscore:
@@ -140,6 +143,7 @@ func _on_player_player_died() -> void:
 	slow_scale.set_ease(Tween.EASE_OUT)
 	slow_scale.set_trans(Tween.TRANS_CIRC)
 	slow_scale.tween_property($Globe, "base_rotation_speed", 0.0, 6.0)
+	score_text.get_node("AnimationPlayer").play("move_to_middle")
 
 	$ObstacleDespawnTimer.start()
 
